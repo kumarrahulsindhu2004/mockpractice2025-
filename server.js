@@ -13,7 +13,8 @@ const corsOptions = {
   origin: [
 
     'http://localhost:5173',  // Vite default port
-    'https://mockpractice2025.netlify.app/'  ,// Production frontend URL
+    'https://mockpractice2025.netlify.app/'
+    
     // 'https://mockpractice2025.onrender.com'
   ],
   credentials: true,  // Allow cookies/auth headers
