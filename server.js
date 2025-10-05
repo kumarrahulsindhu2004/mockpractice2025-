@@ -1,36 +1,33 @@
 import express from "express";
 import connectDB from "./db.js";
-import cors from 'cors'
-import userRoutes from "./routes/userRoutes.js"
-import QuestionRoutes from './routes/QuestionRoutes.js'
+import cors from "cors";
+import userRoutes from "./routes/userRoutes.js";
+import QuestionRoutes from "./routes/QuestionRoutes.js";
 import { jwtAuthMiddleware } from "./jwt.js";
+
 const app = express();
-// app.use(express.json())
 const PORT = process.env.PORT || 3000;
-// CORS configuration - Add this before other middleware
+
+// ✅ CORS configuration
 const corsOptions = {
   origin: [
-
-    'http://localhost:5173',  // Vite default port
-    // 'https://mockpractice2025.netlify.app/',
-    'https://superlative-sorbet-c275a8.netlify.app' // your new deployed frontend
-    
-    // 'https://mockpractice2025.onrender.com'
+    "http://localhost:5173",
+    "https://superlative-sorbet-c275a8.netlify.app"
   ],
-  credentials: true,  // Allow cookies/auth headers
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
-app.use(cors(corsOptions));
 
-// ✅ Handle preflight requests explicitly
-// app.options("*", cors(corsOptions));
-
+app.use(cors(corsOptions));  // ✅ This handles preflights automatically
 app.use(express.json());
+
 connectDB();
-app.use('/user',userRoutes)
-app.use('/question',jwtAuthMiddleware,QuestionRoutes)
-app.listen(PORT,()=>{
-    console.log('Server on locahost',PORT);
-    
-})
+
+// ✅ Routes
+app.use("/user", userRoutes);
+app.use("/question", jwtAuthMiddleware, QuestionRoutes);
+
+app.listen(PORT, () => {
+  console.log("✅ Server running on port", PORT);
+});
