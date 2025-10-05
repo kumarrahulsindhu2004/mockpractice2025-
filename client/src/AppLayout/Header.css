@@ -1,0 +1,204 @@
+/* Reset + Global */
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+:root { scroll-padding-top: 64px; }
+
+/* Navbar */
+.navbar {
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* Logo */
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #111827;
+  text-decoration: none;
+}
+.navbar-brand:hover { color: #10b981; }
+
+/* Nav Links */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.navbar-nav li { position: relative; }
+.navbar-nav a {
+  color: #374151;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 0;
+}
+.navbar-nav a:hover { color: #10b981; }
+.navbar-nav a.active { font-weight: 600; color: #10b981; }
+
+/* Buttons */
+.navbar-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-left: auto;
+}
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 70px;
+  min-height: 40px;
+}
+.btn-outline {
+  border: 1px solid #10b981;
+  color: #10b981;
+  background: transparent;
+}
+.btn-outline:hover { background: #ecfdf5; }
+.btn-primary {
+  background: #10b981;
+  color: white;
+  border: 1px solid #10b981;
+}
+.btn-primary:hover { background: #0f9b72; }
+
+/* Hamburger */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.75rem;
+}
+.hamburger-line {
+  width: 24px;
+  height: 2.5px;
+  background-color: #374151;
+  margin: 3.5px 0;
+  border-radius: 2px;
+}
+
+/* Overlay */
+.menu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+.menu-overlay.show { display: block; }
+
+/* Mobile */
+.mobile-buttons { display: none; }
+
+@media (max-width: 768px) {
+  .menu-toggle { display: flex; }
+
+  .navbar-nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100dvh; /* ✅ FIXED: dynamic height for mobile */
+    background: #fff;
+    flex-direction: column;
+    padding: 2rem 1rem;
+    transition: right 0.3s ease;
+    z-index: 1001;
+    overflow-y: auto; /* ✅ allows scroll if needed */
+    display: flex;
+  }
+
+  .navbar-nav.open { right: 0; }
+
+  .navbar-actions { display: none; }
+
+  /* ✅ Fixed bottom login/signup area */
+  .mobile-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: auto;
+    margin-bottom: 1.5rem; /* adds breathing space from bottom edge */
+    background: #fff;
+    position: sticky;
+    bottom: 1rem;
+    padding-top: 1rem;
+  }
+}
+
+/* Profile */
+.profile-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.profile-circle {
+  background-color: #007bff;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.profile-dropdown {
+  display: none;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+  padding: 10px;
+  min-width: 150px;
+}
+
+.profile-wrapper:hover .profile-dropdown { display: block; }
+.profile-dropdown p { margin: 0; font-weight: bold; }
+
+.profile-dropdown button,
+.profile-dropdown a {
+  display: block;
+  margin-top: 5px;
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  text-align: left;
+}
