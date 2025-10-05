@@ -49,7 +49,7 @@ function SignUp() {
       localStorage.setItem("token", JSON.stringify(res.data.token));
     }
     alert("Signup Successful! Redirecting...");
-    navigate("/practice");
+    navigate("/login");
   } catch (err) {
     console.error("Signup Failed:", err);
     alert("Signup Failed");
