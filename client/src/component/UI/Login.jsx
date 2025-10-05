@@ -1,33 +1,29 @@
 import React from 'react'
 import { useState } from 'react';
 import axios from 'axios'
-
+import { loginUser } from '../../services/api';
 function Login() {
   const [email,setEmail]= useState("");
   const [password,setPassword]=useState("");
 
-const handleSubmit=()=>{
-  const payload = {
-    email:email,
-    password:password
-  }
-  console.log("output",payload)
+const handleSubmit = () => {
+  const payload = { email, password };
+  console.log("output", payload);
 
-  axios.post(`${import.meta.env.VITE_API_URL}/user/login`,payload)
-  .then((res)=>{
-    localStorage.setItem("token",JSON.stringify(res.data.token))
-    localStorage.setItem("user", JSON.stringify(res.data.user)); // ✅ Save user
-    alert('Login Successful')
-    setEmail("")
-    setPassword("")
-    window.location.href = "/"; // redirect to home
-    console.log('Login Successful',res);
-  })
-  .catch((err)=>{
-    alert('Login Failed')
-    console.log("Login Failed",err);
-  })
-}
+  loginUser(payload)
+    .then((res) => {
+      localStorage.setItem("token", JSON.stringify(res.data.token));
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      alert("Login Successful");
+      setEmail("");
+      setPassword("");
+      window.location.href = "/";
+    })
+    .catch((err) => {
+      alert("Login Failed");
+      console.log("Login Failed", err);
+    });
+};
   return (
     <div>
       <h1>Login Page</h1>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { signupUser } from "../../services/api";
 function SignUp() {
   const navigate = useNavigate();
 
@@ -25,58 +25,36 @@ function SignUp() {
   };
 
   // handle form submit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const payload = {
-      name: formData.name,
-      email: formData.email,
-      age: Number(formData.age),
-      mobile: formData.mobile,
-      address: formData.address,
-      password: formData.password,
-      profile: {
-        education_level: formData.education_level,
-        target_exam: formData.target_exam.split(",").map((exam) => exam.trim()), // convert to array
-        college_name: formData.college_name,
-        location: formData.location,
-      },
-    };
-
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/user/signup`,
-        payload
-      );
-
-      // save token (assuming backend returns token in res.data.token)
-      if (res.data.token) {
-        localStorage.setItem("token", JSON.stringify(res.data.token));
-      }
-
-      alert("Signup Successful! Redirecting...");
-
-      // redirect to dashboard (protected route)
-      navigate("/practice");
-
-      // reset form
-      setFormData({
-        name: "",
-        email: "",
-        age: "",
-        mobile: "",
-        address: "",
-        password: "",
-        education_level: "",
-        target_exam: "",
-        college_name: "",
-        location: "",
-      });
-    } catch (err) {
-      console.error("Signup Failed:", err);
-      alert("Signup Failed");
-    }
+  const payload = {
+    name: formData.name,
+    email: formData.email,
+    age: Number(formData.age),
+    mobile: formData.mobile,
+    address: formData.address,
+    password: formData.password,
+    profile: {
+      education_level: formData.education_level,
+      target_exam: formData.target_exam.split(",").map((exam) => exam.trim()),
+      college_name: formData.college_name,
+      location: formData.location,
+    },
   };
+
+  try {
+    const res = await signupUser(payload);
+    if (res.data.token) {
+      localStorage.setItem("token", JSON.stringify(res.data.token));
+    }
+    alert("Signup Successful! Redirecting...");
+    navigate("/practice");
+  } catch (err) {
+    console.error("Signup Failed:", err);
+    alert("Signup Failed");
+  }
+};
 
   return (
     <div>
