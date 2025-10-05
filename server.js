@@ -6,21 +6,25 @@ import userRoutes from "./routes/userRoutes.js"
 import QuestionRoutes from './routes/QuestionRoutes.js'
 import { jwtAuthMiddleware } from "./jwt.js";
 const app = express();
-app.use(express.json())
+// app.use(express.json())
 const PORT = process.env.PORT || 3000;
 // CORS configuration - Add this before other middleware
 const corsOptions = {
   origin: [
-    'http://localhost:3000',  // Your React dev server
+
     'http://localhost:5173',  // Vite default port
     'https://mockpractice2025.netlify.app/'  ,// Production frontend URL
-    'https://mockpractice2025.onrender.com'
+    // 'https://mockpractice2025.onrender.com'
   ],
   credentials: true,  // Allow cookies/auth headers
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 };
-app.use(cors(corsOptions)); 
+app.use(cors(corsOptions));
+// ✅ Handle preflight requests explicitly
+// app.options("*", cors(corsOptions));
+
+app.use(express.json());
 connectDB();
 app.use('/user',userRoutes)
 app.use('/question',jwtAuthMiddleware,QuestionRoutes)
