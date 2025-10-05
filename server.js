@@ -1,7 +1,6 @@
 import express from "express";
 import connectDB from "./db.js";
 import cors from 'cors'
-
 import userRoutes from "./routes/userRoutes.js"
 import QuestionRoutes from './routes/QuestionRoutes.js'
 import { jwtAuthMiddleware } from "./jwt.js";
@@ -22,6 +21,7 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization']
 };
 app.use(cors(corsOptions));
+
 // ✅ Handle preflight requests explicitly
 // app.options("*", cors(corsOptions));
 
