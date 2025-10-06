@@ -1,0 +1,95 @@
+/* ===============================
+   LOGIN PAGE STYLES
+================================ */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #d1f4f2, #f8fdfd);
+  font-family: "Poppins", sans-serif;
+}
+
+.login-card {
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 14px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  transition: 0.3s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-3px);
+}
+
+.login-card h1 {
+  color: #00796b;
+  font-size: 1.9rem;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
+.login-input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #cfd8dc;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.2s;
+}
+
+.login-input:focus {
+  border-color: #00796b;
+  box-shadow: 0 0 6px rgba(0, 121, 107, 0.2);
+}
+
+.login-button {
+  width: 100%;
+  background: #00796b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-top: 10px;
+}
+
+.login-button:hover {
+  background: #004d40;
+}
+
+.login-footer {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.login-footer a {
+  color: #00796b;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.8rem;
+  }
+
+  .login-card h1 {
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,105 @@
+/* ===============================
+   SIGNUP PAGE STYLES
+================================ */
+.signup-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f0f4ff, #ffffff);
+  font-family: "Poppins", sans-serif;
+}
+
+.signup-card {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 14px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 500px;
+  transition: all 0.3s ease;
+}
+
+.signup-card:hover {
+  transform: translateY(-3px);
+}
+
+.signup-card h1 {
+  text-align: center;
+  color: #3949ab;
+  font-size: 1.8rem;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
+/* ===============================
+   INPUTS
+================================ */
+.signup-input {
+  width: 100%;
+  padding: 11px 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #cfd8dc;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.signup-input:focus {
+  border-color: #3949ab;
+  box-shadow: 0 0 5px rgba(57, 73, 171, 0.2);
+}
+
+/* ===============================
+   BUTTON
+================================ */
+.signup-button {
+  width: 100%;
+  background: #3949ab;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.signup-button:hover {
+  background: #283593;
+}
+
+/* ===============================
+   FOOTER
+================================ */
+.signup-footer {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.signup-footer a {
+  color: #3949ab;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.signup-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 500px) {
+  .signup-card {
+    padding: 1.5rem;
+  }
+
+  .signup-card h1 {
+    font-size: 1.5rem;
+  }
+}

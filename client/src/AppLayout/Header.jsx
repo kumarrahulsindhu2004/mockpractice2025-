@@ -136,13 +136,12 @@ const Header = () => {
               <div className="profile-circle" onClick={toggleDropdown}>
                 {getInitials(user.name)}
               </div>
-              {dropdownOpen && (
-                <div className="profile-dropdown">
-                  <p>{user.name}</p>
-                  <Link to="/profile" onClick={handleLinkClick}>Profile</Link>
-                  <button onClick={handleLogout}>Logout</button>
-                </div>
-              )}
+              <div className={`profile-dropdown ${dropdownOpen ? "active" : ""}`}>
+  <p>{user.name}</p>
+  <Link to="/profile" onClick={handleLinkClick}>Profile</Link>
+  <button onClick={handleLogout}>Logout</button>
+</div>
+
             </li>
           )}
         </ul>
