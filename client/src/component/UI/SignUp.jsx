@@ -5,6 +5,7 @@ import "./signup.css";
 
 function SignUp() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false); // 👈 Loading state
 
   const [formData, setFormData] = useState({
     name: "",
@@ -26,6 +27,7 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // 👈 Start loading
 
     const payload = {
       name: formData.name,
@@ -52,6 +54,8 @@ function SignUp() {
     } catch (err) {
       console.error("Signup Failed:", err);
       alert("Signup Failed");
+    } finally {
+      setLoading(false); // 👈 Stop loading
     }
   };
 
@@ -59,6 +63,7 @@ function SignUp() {
     <div className="signup-page">
       <div className="signup-card">
         <h1>Create an Account</h1>
+
         <form onSubmit={handleSubmit}>
           <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} className="signup-input" />
           <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="signup-input" />
@@ -71,8 +76,12 @@ function SignUp() {
           <input type="text" name="college_name" placeholder="College Name" value={formData.college_name} onChange={handleChange} className="signup-input" />
           <input type="text" name="location" placeholder="Location" value={formData.location} onChange={handleChange} className="signup-input" />
 
-          <button type="submit" className="signup-button">Sign Up</button>
+          <button type="submit" className="signup-button" disabled={loading}>
+            {loading ? "Signing up..." : "Sign Up"}
+          </button>
         </form>
+
+        {loading && <div className="loader"></div>} {/* 👈 Show loader */}
 
         <p className="signup-footer">
           Already have an account? <a href="/login">Login</a>

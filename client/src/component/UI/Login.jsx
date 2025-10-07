@@ -5,8 +5,11 @@ import "./login.css";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false); // 👈 Added loading state
 
   const handleSubmit = () => {
+    setLoading(true); // 👈 Start loading
+
     const payload = { email, password };
 
     loginUser(payload)
@@ -21,6 +24,9 @@ function Login() {
       .catch((err) => {
         alert("Login Failed");
         console.error("Login Failed", err);
+      })
+      .finally(() => {
+        setLoading(false); // 👈 Stop loading
       });
   };
 
@@ -45,9 +51,15 @@ function Login() {
           className="login-input"
         />
 
-        <button onClick={handleSubmit} className="login-button">
-          Login
+        <button
+          onClick={handleSubmit}
+          className="login-button"
+          disabled={loading} // 👈 Disable button during loading
+        >
+          {loading ? "Logging in..." : "Login"}
         </button>
+
+        {loading && <div className="loader"></div>} {/* 👈 Show spinner */}
 
         <p className="login-footer">
           Don’t have an account? <a href="/signup">Sign Up</a>
