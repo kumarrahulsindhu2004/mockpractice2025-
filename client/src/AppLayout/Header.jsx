@@ -1,67 +1,76 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Link, useLocation, useNavigate } from "react-router-dom"
-import axios from "axios"
-import "./Header.css"
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./Header.css";
 
 const Header = () => {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [user, setUser] = useState(null) 
-  const [dropdownOpen, setDropdownOpen] = useState(false)
-  const location = useLocation()
-  const navigate = useNavigate()
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  // Toggle menu
-  const handleLinkClick = () => setMenuOpen(false)
-  const toggleMenu = () => setMenuOpen(!menuOpen)
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen)
+  // ✅ Toggle menu & dropdown
+  const handleLinkClick = () => setMenuOpen(false);
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
-  // Fetch user from localStorage / API
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user")
-    if (storedUser) {
-      setUser(JSON.parse(storedUser))
+  // ✅ Safe JSON parse
+  const safeParse = (value) => {
+    if (!value || value === "undefined" || value === "null") return null;
+    try {
+      return JSON.parse(value);
+    } catch {
+      return null;
     }
+  };
 
-    const token = JSON.parse(localStorage.getItem("token"))
+  // ✅ Fetch user from localStorage / API
+  useEffect(() => {
+    const storedUser = safeParse(localStorage.getItem("user"));
+    if (storedUser) setUser(storedUser);
+
+    const token = safeParse(localStorage.getItem("token"));
     if (token) {
       axios
         .get(`${import.meta.env.VITE_API_URL}/user/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
-          setUser(res.data.user)
-          localStorage.setItem("user", JSON.stringify(res.data.user))
+          setUser(res.data.user);
+          localStorage.setItem("user", JSON.stringify(res.data.user));
         })
         .catch(() => {
-          localStorage.removeItem("token")
-          localStorage.removeItem("user")
-          setUser(null)
-        })
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          setUser(null);
+        });
     }
-  }, [])
+  }, []);
 
-  // Logout function
+  // ✅ Logout
   const handleLogout = () => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    setUser(null)
-    navigate("/login")
-  }
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
+    navigate("/login");
+  };
 
-  // Get initials like Rahul Kumar → RK
+  // ✅ User initials helper
   const getInitials = (name) => {
-    if (!name) return ""
-    const parts = name.trim().split(" ")
-    if (parts.length === 1) return parts[0][0].toUpperCase()
-    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
-  }
+    if (!name) return "";
+    const parts = name.trim().split(" ");
+    if (parts.length === 1) return parts[0][0].toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  };
 
+  // ✅ Close body scroll when menu open
   useEffect(() => {
-    document.body.classList.toggle("menu-open", menuOpen)
-    return () => document.body.classList.remove("menu-open")
-  }, [menuOpen])
+    document.body.classList.toggle("menu-open", menuOpen);
+    return () => document.body.classList.remove("menu-open");
+  }, [menuOpen]);
 
   return (
     <nav className="navbar">
@@ -124,10 +133,18 @@ const Header = () => {
           {/* Mobile Buttons */}
           {!user ? (
             <li className="mobile-buttons">
-              <Link to="/login" className="btn btn-outline mobile-btn" onClick={handleLinkClick}>
+              <Link
+                to="/login"
+                className="btn btn-outline mobile-btn"
+                onClick={handleLinkClick}
+              >
                 Login
               </Link>
-              <Link to="/signup" className="btn btn-primary mobile-btn" onClick={handleLinkClick}>
+              <Link
+                to="/signup"
+                className="btn btn-primary mobile-btn"
+                onClick={handleLinkClick}
+              >
                 Signup
               </Link>
             </li>
@@ -136,12 +153,15 @@ const Header = () => {
               <div className="profile-circle" onClick={toggleDropdown}>
                 {getInitials(user.name)}
               </div>
-              <div className={`profile-dropdown ${dropdownOpen ? "active" : ""}`}>
-  <p>{user.name}</p>
-  <Link to="/profile" onClick={handleLinkClick}>Profile</Link>
-  <button onClick={handleLogout}>Logout</button>
-</div>
-
+              <div
+                className={`profile-dropdown ${dropdownOpen ? "active" : ""}`}
+              >
+                <p>{user.name}</p>
+                <Link to="/profile" onClick={handleLinkClick}>
+                  Profile
+                </Link>
+                <button onClick={handleLogout}>Logout</button>
+              </div>
             </li>
           )}
         </ul>
@@ -159,24 +179,32 @@ const Header = () => {
             </>
           ) : (
             <div className="profile-wrapper">
-  <div className="profile-circle" onClick={toggleDropdown}>
-    {getInitials(user.name)}
-  </div>
-  <div className={`profile-dropdown ${dropdownOpen ? "active" : ""}`}>
-    <p>{user.name}</p>
-    <Link to="/profile" onClick={handleLinkClick}>Profile</Link>
-    <button onClick={handleLogout}>Logout</button>
-  </div>
-</div>
-
+              <div className="profile-circle" onClick={toggleDropdown}>
+                {getInitials(user.name)}
+              </div>
+              <div
+                className={`profile-dropdown ${dropdownOpen ? "active" : ""}`}
+              >
+                <p>{user.name}</p>
+                <Link to="/profile" onClick={handleLinkClick}>
+                  Profile
+                </Link>
+                <button onClick={handleLogout}>Logout</button>
+              </div>
+            </div>
           )}
         </div>
       </div>
 
       {/* Overlay */}
-      {menuOpen && <div className="menu-overlay show" onClick={() => setMenuOpen(false)}></div>}
+      {menuOpen && (
+        <div
+          className="menu-overlay show"
+          onClick={() => setMenuOpen(false)}
+        ></div>
+      )}
     </nav>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

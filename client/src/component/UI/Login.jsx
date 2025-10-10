@@ -5,29 +5,46 @@ import "./login.css";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false); // 👈 Added loading state
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
-  const handleSubmit = () => {
-    setLoading(true); // 👈 Start loading
+  // 🔍 Validate input fields
+  const validateForm = () => {
+    const newErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email || !emailRegex.test(email)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+
+    if (!password || password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters long.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async () => {
+    if (!validateForm()) return;
+    setLoading(true);
 
     const payload = { email, password };
 
-    loginUser(payload)
-      .then((res) => {
-        localStorage.setItem("token", JSON.stringify(res.data.token));
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-        alert("Login Successful");
-        setEmail("");
-        setPassword("");
-        window.location.href = "/";
-      })
-      .catch((err) => {
-        alert("Login Failed");
-        console.error("Login Failed", err);
-      })
-      .finally(() => {
-        setLoading(false); // 👈 Stop loading
-      });
+    try {
+      const res = await loginUser(payload);
+      localStorage.setItem("token", JSON.stringify(res.data.token));
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      alert("Login Successful");
+      setEmail("");
+      setPassword("");
+      window.location.href = "/";
+    } catch (err) {
+      alert("Login Failed");
+      console.error("Login Failed", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -42,6 +59,7 @@ function Login() {
           placeholder="Email"
           className="login-input"
         />
+        {errors.email && <p className="error-text">{errors.email}</p>}
 
         <input
           type="password"
@@ -50,16 +68,17 @@ function Login() {
           placeholder="Password"
           className="login-input"
         />
+        {errors.password && <p className="error-text">{errors.password}</p>}
 
         <button
           onClick={handleSubmit}
           className="login-button"
-          disabled={loading} // 👈 Disable button during loading
+          disabled={loading}
         >
           {loading ? "Logging in..." : "Login"}
         </button>
 
-        {loading && <div className="loader"></div>} {/* 👈 Show spinner */}
+        {loading && <div className="loader"></div>}
 
         <p className="login-footer">
           Don’t have an account? <a href="/signup">Sign Up</a>

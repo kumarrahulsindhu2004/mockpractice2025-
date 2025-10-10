@@ -1,29 +1,50 @@
 import express from "express";
 import { Question } from "../models/Question.js";
-import { generateToken,jwtAuthMiddleware }from "../jwt.js";
-
+import { generateToken, jwtAuthMiddleware } from "../jwt.js";
 
 const router = express.Router();
 
-// Create Question (Admin Only)
+// ✅ Create Question (Admin Only)
 router.post("/", jwtAuthMiddleware, async (req, res) => {
   try {
     const question = new Question(req.body);
-    const existing = await Question.findOne({ 
-      question_text: req.body.question_text.trim() 
+    const existing = await Question.findOne({
+      question_text: req.body.question_text.trim(),
     });
+
     if (existing) {
       return res.status(400).json({ error: "Question already exists" });
     }
+
     await question.save();
     res.status(201).json(question);
-
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 });
 
-// Get All Questions (with filters)
+// ✅ Get subcategories BEFORE :id route
+router.get("/subcategory", async (req, res) => {
+  try {
+    const { category } = req.query;
+    if (!category) {
+      return res.status(400).json({ error: "Category is required" });
+    }
+
+    const subs = await Question.distinct("sub_category", { category });
+    res.json(
+      subs.map((s) => ({
+        name: s,
+        display_name: s.replace(/_/g, " "),
+      }))
+    );
+  } catch (err) {
+    console.error("Error in /subcategory:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ✅ Get All Questions (supports filters)
 router.get("/", async (req, res) => {
   try {
     const { category, difficulty, sub_category } = req.query;
@@ -40,7 +61,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get Question by ID
+// ✅ Get Question by ID
 router.get("/:id", async (req, res) => {
   try {
     const question = await Question.findById(req.params.id);
@@ -51,25 +72,31 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Update Question
+// ✅ Update Question (Admin Only)
 router.put("/:id", jwtAuthMiddleware, async (req, res) => {
   try {
     if (req.user.role !== "admin") {
-      return res.status(403).json({ error: "Only admins can update questions" });
+      return res
+        .status(403)
+        .json({ error: "Only admins can update questions" });
     }
 
-    const updated = await Question.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updated = await Question.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     res.json(updated);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 });
 
-// Delete Question
+// ✅ Delete Question (Admin Only)
 router.delete("/:id", jwtAuthMiddleware, async (req, res) => {
   try {
     if (req.user.role !== "admin") {
-      return res.status(403).json({ error: "Only admins can delete questions" });
+      return res
+        .status(403)
+        .json({ error: "Only admins can delete questions" });
     }
 
     await Question.findByIdAndDelete(req.params.id);
