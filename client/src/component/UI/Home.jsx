@@ -6,15 +6,17 @@ function Home() {
   // const { isLoggedIn } = useAuth()
 
   const handleStartPracticing = () => {
-    const token = localStorage.getItem("token");
-     if (token) {
-      // ✅ user is logged in → go to practice page
-      navigate("/practice");
-    } else {
-      // 🚫 not logged in → show alert and go to login page
-      alert("You must be logged in to start practicing!");
-      navigate("/login");
-    }
+    navigate("/practice")
+
+    // const token = localStorage.getItem("token");
+    //  if (token) {
+    //   // ✅ user is logged in → go to practice page
+    //   navigate("/practice");
+    // } else {
+    //   // 🚫 not logged in → show alert and go to login page
+    //   alert("You must be logged in to start practicing!");
+    //   navigate("/login");
+    // }
   }
 
   const handleViewSubjects = () => {

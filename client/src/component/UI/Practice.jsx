@@ -18,7 +18,17 @@ function Practice() {
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showExplanation, setShowExplanation] = useState({}); // ✅ Track per-question toggle
+  const [showExplanation, setShowExplanation] = useState({});
+  const [motivationalQuote, setMotivationalQuote] = useState("");
+
+  // ✨ Motivational quotes
+  const quotes = [
+    "Practice makes progress, not perfection. 🚀",
+    "Every question you solve brings you one step closer to success. 💪",
+    "Learning never exhausts the mind. 🌟",
+    "Small steps every day lead to big achievements. 🎯",
+    "Your only limit is your effort. Keep going! 🔥",
+  ];
 
   // ✅ Check login
   useEffect(() => {
@@ -28,6 +38,12 @@ function Practice() {
       navigate("/login");
     }
   }, [navigate]);
+
+  // 🎯 Show random quote on page load
+  useEffect(() => {
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    setMotivationalQuote(randomQuote);
+  }, []);
 
   // ✅ Fetch subcategories
   const fetchSubcategories = async (category) => {
@@ -51,7 +67,7 @@ function Practice() {
         `/question?category=${category}&sub_category=${subcategory}`
       );
       setQuestions(res.data);
-      setShowExplanation({}); // reset explanation visibility
+      setShowExplanation({});
     } catch (error) {
       console.error("Error fetching questions:", error);
       alert("Failed to fetch questions");
@@ -80,7 +96,6 @@ function Practice() {
     }
   };
 
-  // ✅ Toggle explanation for each question
   const toggleExplanation = (id) => {
     setShowExplanation((prev) => ({
       ...prev,
@@ -98,22 +113,27 @@ function Practice() {
         </button>
       )}
 
-      {/* Category View */}
+      {/* 🧠 Default Intro Section */}
       {!selectedCategory && (
-        <div className="category-grid">
-          {categories.map((cat) => (
-            <div
-              key={cat.name}
-              className="category-card"
-              onClick={() => handleCategoryClick(cat.name)}
-            >
-              <h2>{cat.display}</h2>
-            </div>
-          ))}
+        <div className="intro-section">
+          <h2>🔥 Welcome to Your Practice Zone!</h2>
+          <p>{motivationalQuote}</p>
+          <div className="category-grid">
+            {categories.map((cat) => (
+              <div
+                key={cat.name}
+                className="category-card"
+                onClick={() => handleCategoryClick(cat.name)}
+              >
+                <h2>{cat.display}</h2>
+                <p>Sharpen your {cat.display.toLowerCase()} skills</p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
-      {/* Subcategory View */}
+      {/* 📚 Subcategory View */}
       {selectedCategory && !selectedSubCategory && (
         <div className="subcategory-grid">
           {loading ? (
@@ -134,7 +154,7 @@ function Practice() {
         </div>
       )}
 
-      {/* Questions View */}
+      {/* 📝 Questions View */}
       {selectedSubCategory && (
         <div className="questions-section">
           <h2 className="category-title">
