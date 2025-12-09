@@ -3,12 +3,46 @@ import { useNavigate } from "react-router-dom";
 import API from "../../services/api";
 import "./practice.css";
 
+// const categories = [
+//   { name: "aptitude", display: "Aptitude" },
+//   { name: "reasoning", display: "Reasoning" },
+//   { name: "english", display: "English" },
+//   { name: "computer", display: "Computer" },
+//   { name: "communication", display: "Communication" },
+// ];
+
+
 const categories = [
-  { name: "aptitude", display: "Aptitude" },
-  { name: "reasoning", display: "Reasoning" },
-  { name: "english", display: "English" },
-  { name: "computer", display: "Computer" },
-  { name: "communication", display: "Communication" },
+  {
+    name: "aptitude",
+    title: "Aptitude",
+    subtitle: "Quantitative problem solving",
+    icon: "📊",
+  },
+  {
+    name: "reasoning",
+    title: "Reasoning",
+    subtitle: "Logical & analytical thinking",
+    icon: "🧠",
+  },
+  {
+    name: "english",
+    title: "English",
+    subtitle: "Grammar & comprehension",
+    icon: "📘",
+  },
+  {
+    name: "computer",
+    title: "Computer",
+    subtitle: "CS fundamentals",
+    icon: "💻",
+  },
+  {
+    name: "communication",
+    title: "Communication",
+    subtitle: "Speaking & soft skills",
+    icon: "🎤",
+  },
 ];
 
 function Practice() {
@@ -103,111 +137,101 @@ function Practice() {
     }));
   };
 
-  return (
-    <div className="practice-page">
-      <h1 className="page-title">Practice Questions</h1>
+return (
+  <div className="practice-roadmap-page">
 
-      {(selectedCategory || selectedSubCategory) && (
+    {/* HERO (Same as Subject page) */}
+    <header className="practice-hero">
+      <h1>Practice Hub</h1>
+      <p>Choose a skill and start practicing step by step</p>
+    </header>
+
+    {/* BACK BUTTON */}
+    {(selectedCategory || selectedSubCategory) && (
+      <div className="practice-back">
         <button className="back-btn" onClick={handleBack}>
-          ⬅ Back
+          ← Back
         </button>
-      )}
+      </div>
+    )}
 
-      {/* 🧠 Default Intro Section */}
-      {!selectedCategory && (
-        <div className="intro-section">
-          <h2>🔥 Welcome to Your Practice Zone!</h2>
-          <p>{motivationalQuote}</p>
-          <div className="category-grid">
-            {categories.map((cat) => (
-              <div
-                key={cat.name}
-                className="category-card"
-                onClick={() => handleCategoryClick(cat.name)}
-              >
-                <h2>{cat.display}</h2>
-                <p>Sharpen your {cat.display.toLowerCase()} skills</p>
-              </div>
-            ))}
+    {/* CATEGORY VIEW */}
+    {!selectedCategory && (
+      <section className="practice-grid">
+        {categories.map((cat) => (
+          <div
+            key={cat.name}
+            className="practice-card"
+            onClick={() => handleCategoryClick(cat.name)}
+          >
+            <div className="card-icon">{cat.icon}</div>
+            <h3>{cat.title}</h3>
+            <p>{cat.subtitle}</p>
+            <div className="card-cta">Start Practice →</div>
           </div>
-        </div>
-      )}
+        ))}
+      </section>
+    )}
 
-      {/* 📚 Subcategory View */}
-      {selectedCategory && !selectedSubCategory && (
-        <div className="subcategory-grid">
-          {loading ? (
-            <p>Loading subcategories...</p>
-          ) : subcategories.length > 0 ? (
-            subcategories.map((sub) => (
-              <div
-                key={sub.name}
-                className="subcategory-card"
-                onClick={() => handleSubCategoryClick(sub.name)}
-              >
-                <h3>{sub.display_name}</h3>
-              </div>
-            ))
-          ) : (
-            <p>No subcategories found.</p>
-          )}
-        </div>
-      )}
-
-      {/* 📝 Questions View */}
-      {selectedSubCategory && (
-        <div className="questions-section">
-          <h2 className="category-title">
-            {selectedSubCategory.charAt(0).toUpperCase() +
-              selectedSubCategory.slice(1)}{" "}
-            Questions
-          </h2>
-
-          {loading && <p>Loading questions...</p>}
-
-          {!loading && questions.length > 0 && (
-            <div className="questions-list">
-              {questions.map((q, index) => (
-                <div key={q._id} className="question-card">
-                  <h3>
-                    Q{index + 1}: {q.question_text}
-                  </h3>
-                  <ul>
-                    {q.options.map((opt, i) => (
-                      <li key={i}>{opt.option}</li>
-                    ))}
-                  </ul>
-
-                  {q.explanation && (
-                    <>
-                      <button
-                        className="explanation-btn"
-                        onClick={() => toggleExplanation(q._id)}
-                      >
-                        {showExplanation[q._id]
-                          ? "Hide Explanation"
-                          : "Show Explanation"}
-                      </button>
-
-                      {showExplanation[q._id] && (
-                        <p className="explanation">
-                          <strong>Explanation:</strong> {q.explanation}
-                        </p>
-                      )}
-                    </>
-                  )}
-                </div>
-              ))}
+    {/* SUBCATEGORY VIEW */}
+    {selectedCategory && !selectedSubCategory && (
+      <section className="practice-grid">
+        {loading ? (
+          <p>Loading…</p>
+        ) : (
+          subcategories.map((sub) => (
+            <div
+              key={sub.name}
+              className="practice-card small"
+              onClick={() => handleSubCategoryClick(sub.name)}
+            >
+              <h3>{sub.display_name}</h3>
+              <div className="card-cta">View Questions →</div>
             </div>
-          )}
+          ))
+        )}
+      </section>
+    )}
 
-          {!loading && questions.length === 0 && (
-            <p>No questions found in this subcategory.</p>
-          )}
-        </div>
-      )}
-    </div>
-  );
+    {/* QUESTIONS VIEW */}
+    {selectedSubCategory && (
+      <section className="questions-section">
+        <h2 className="category-title">
+          {selectedSubCategory.toUpperCase()} — Practice
+        </h2>
+
+        {loading && <p>Loading questions…</p>}
+
+        {!loading && questions.map((q, i) => (
+          <div key={q._id} className="question-card">
+            <h3>Q{i + 1}. {q.question_text}</h3>
+            <ul>
+              {q.options.map((opt, idx) => (
+                <li key={idx}>{opt.option}</li>
+              ))}
+            </ul>
+
+            {q.explanation && (
+              <>
+                <button
+                  className="explanation-btn"
+                  onClick={() => toggleExplanation(q._id)}
+                >
+                  {showExplanation[q._id] ? "Hide Explanation" : "Show Explanation"}
+                </button>
+
+                {showExplanation[q._id] && (
+                  <p className="explanation">{q.explanation}</p>
+                )}
+              </>
+            )}
+          </div>
+        ))}
+      </section>
+    )}
+  </div>
+);
+
 }
 
 export default Practice;

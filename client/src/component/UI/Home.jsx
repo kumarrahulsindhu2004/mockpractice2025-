@@ -6,26 +6,30 @@ function Home() {
   // const { isLoggedIn } = useAuth()
 
   const handleStartPracticing = () => {
-    navigate("/practice")
+    // navigate("/practice")
 
-    // const token = localStorage.getItem("token");
-    //  if (token) {
-    //   // ✅ user is logged in → go to practice page
-    //   navigate("/practice");
-    // } else {
-    //   // 🚫 not logged in → show alert and go to login page
-    //   alert("You must be logged in to start practicing!");
-    //   navigate("/login");
-    // }
-  }
-
-  const handleViewSubjects = () => {
-    if (isLoggedIn) {
-      navigate("/practice")
+    const token = localStorage.getItem("token");
+     if (token) {
+      // ✅ user is logged in → go to practice page
+      navigate("/practice");
     } else {
-      navigate("/login")
+      // 🚫 not logged in → show alert and go to login page
+      alert("You must be logged in to start practicing!");
+      navigate("/login");
     }
   }
+
+ const handleViewSubjects = () => {
+    navigate("/subject")
+  // const token = localStorage.getItem("token");
+
+  // if (token) {
+  //   navigate("/subject");   // user logged in
+  // } else {
+  //   navigate("/login");      // user not logged in
+  // }
+};
+
 
   return (
     <div className="home-container">
@@ -40,7 +44,7 @@ function Home() {
             progress, and boost your confidence.
           </p>
           <div className="hero-buttons">
-            <button className="btn-primary" onClick={handleStartPracticing}>
+            <button className="btn-start" onClick={handleStartPracticing}>
               Start Practicing
             </button>
             <button className="btn-secondary" onClick={handleViewSubjects}>

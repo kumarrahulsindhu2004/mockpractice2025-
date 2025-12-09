@@ -57,7 +57,7 @@
   flex-wrap: wrap;
 }
 
-.btn-primary {
+.btn-start {
   background: linear-gradient(135deg, #059669, #10b981);
   color: white;
   border: none;
@@ -70,12 +70,12 @@
   box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
 }
 
-.btn-primary:hover {
+.btn-start:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(5, 150, 105, 0.4);
 }
 
-.btn-primary.large {
+.btn-start.large {
   padding: 20px 40px;
   font-size: 1.2rem;
 }

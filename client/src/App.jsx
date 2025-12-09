@@ -5,6 +5,7 @@ import Home from './component/UI/Home.jsx'
 import Login from "./component/UI/Login.jsx"
 import Practice from "./component/UI/Practice.jsx"
 import SignUp from "./component/UI/SignUp.jsx"
+import Subjects from "./component/UI/Subjects.jsx"
 
 function App() {
   const router = createBrowserRouter([
@@ -28,6 +29,10 @@ function App() {
           path:"/practice",
           element:<Practice/>
         },
+        {
+          path:"/subject",
+          element:<Subjects/>
+        }
         
       ]
     }

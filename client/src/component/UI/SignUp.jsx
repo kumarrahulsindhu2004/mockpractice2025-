@@ -6,197 +6,125 @@ import "./signup.css";
 function SignUp() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    age: "",
-    mobile: "",
-    address: "",
     password: "",
     education_level: "",
     target_exam: "",
-    college_name: "",
-    location: "",
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  // ✅ Validation logic
-  const validateForm = () => {
-    const newErrors = {};
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^[0-9]{10}$/;
-    const strongPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
-
-    if (!formData.name.trim()) newErrors.name = "Name is required.";
-    if (!emailRegex.test(formData.email))
-      newErrors.email = "Please enter a valid email address.";
-    if (!phoneRegex.test(formData.mobile))
-      newErrors.mobile = "Please enter a valid 10-digit mobile number.";
-    if (!strongPassword.test(formData.password))
-      newErrors.password =
-        "Password must be at least 6 characters, include letters and numbers.";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
-
     setLoading(true);
 
     const payload = {
       name: formData.name,
       email: formData.email,
-      age: Number(formData.age),
-      mobile: formData.mobile,
-      address: formData.address,
       password: formData.password,
       profile: {
         education_level: formData.education_level,
         target_exam: formData.target_exam
           .split(",")
-          .map((exam) => exam.trim()),
-        college_name: formData.college_name,
-        location: formData.location,
+          .map((e) => e.trim()),
       },
     };
 
     try {
-      const res = await signupUser(payload);
-      if (res.data.token) {
-        localStorage.setItem("token", JSON.stringify(res.data.token));
-      }
-      alert("Signup Successful! Redirecting...");
+      await signupUser(payload);
+      alert("Account created successfully!");
       navigate("/login");
     } catch (err) {
-      console.error("Signup Failed:", err);
-      alert("Signup Failed");
+      alert("Signup failed");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="signup-page">
-      <div className="signup-card">
-        <h1>Create an Account</h1>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Name"
-            value={formData.name}
-            onChange={handleChange}
-            className="signup-input"
-          />
-          {errors.name && <p className="error-text">{errors.name}</p>}
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            className="signup-input"
-          />
-          {errors.email && <p className="error-text">{errors.email}</p>}
-
-          <input
-            type="number"
-            name="age"
-            placeholder="Age"
-            value={formData.age}
-            onChange={handleChange}
-            className="signup-input"
-          />
-
-          <input
-            type="text"
-            name="mobile"
-            placeholder="Mobile"
-            value={formData.mobile}
-            onChange={handleChange}
-            className="signup-input"
-          />
-          {errors.mobile && <p className="error-text">{errors.mobile}</p>}
-
-          <input
-            type="text"
-            name="address"
-            placeholder="Address"
-            value={formData.address}
-            onChange={handleChange}
-            className="signup-input"
-          />
-
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            className="signup-input"
-          />
-          {errors.password && <p className="error-text">{errors.password}</p>}
-
-          <input
-            type="text"
-            name="education_level"
-            placeholder="Education Level"
-            value={formData.education_level}
-            onChange={handleChange}
-            className="signup-input"
-          />
-
-          <input
-            type="text"
-            name="target_exam"
-            placeholder="Target Exams (comma separated)"
-            value={formData.target_exam}
-            onChange={handleChange}
-            className="signup-input"
-          />
-
-          <input
-            type="text"
-            name="college_name"
-            placeholder="College Name"
-            value={formData.college_name}
-            onChange={handleChange}
-            className="signup-input"
-          />
-
-          <input
-            type="text"
-            name="location"
-            placeholder="Location"
-            value={formData.location}
-            onChange={handleChange}
-            className="signup-input"
-          />
-
-          <button
-            type="submit"
-            className="signup-button"
-            disabled={loading}
-          >
-            {loading ? "Signing up..." : "Sign Up"}
-          </button>
-        </form>
-
-        {loading && <div className="loader"></div>}
-
-        <p className="signup-footer">
-          Already have an account? <a href="/login">Login</a>
+    <div className="signup-modern">
+      {/* Left Section */}
+      <div className="signup-left">
+        <h1>Mock Practice</h1>
+        <p>
+          Practice smarter. Get exam-ready with curated questions and
+          explanations.
         </p>
+
+        <ul>
+          <li>✅ Curated practice sets</li>
+          <li>✅ Real exam patterns</li>
+          <li>✅ Track learning progress</li>
+        </ul>
+      </div>
+
+      {/* Right Section */}
+      <div className="signup-right">
+        <div className="signup-box">
+          <h2>Create your account</h2>
+          <p className="subtitle">
+            Start your learning journey today 🚀
+          </p>
+
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="name"
+              placeholder="Full name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              type="email"
+              name="email"
+              placeholder="Email address"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              type="text"
+              name="education_level"
+              placeholder="Education (e.g. B.Tech, 12th)"
+              value={formData.education_level}
+              onChange={handleChange}
+            />
+
+            <input
+              type="text"
+              name="target_exam"
+              placeholder="Target exams (SSC, Banking, CAT)"
+              value={formData.target_exam}
+              onChange={handleChange}
+            />
+
+            <button type="submit" disabled={loading}>
+              {loading ? "Creating account..." : "Create Account"}
+            </button>
+          </form>
+
+          <p className="login-link">
+            Already have an account?{" "}
+            <span onClick={() => navigate("/login")}>Login</span>
+          </p>
+        </div>
       </div>
     </div>
   );
