@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { loginUser } from "../../services/api";
 import "./login.css";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -81,7 +82,7 @@ function Login() {
         {loading && <div className="loader"></div>}
 
         <p className="login-footer">
-          Don’t have an account? <a href="/signup">Sign Up</a>
+          Don’t have an account? <Link to ="/signup">Sign Up</Link>
         </p>
       </div>
     </div>
