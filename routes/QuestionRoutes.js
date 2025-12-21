@@ -47,15 +47,32 @@ router.get("/subcategory", async (req, res) => {
 // ✅ Get All Questions (supports filters)
 router.get("/", async (req, res) => {
   try {
-    const { category, difficulty, sub_category } = req.query;
-    const filter = {};
+    // const { category, difficulty, sub_category } = req.query;
+    // const filter = {};
 
-    if (category) filter.category = category;
-    if (difficulty) filter.difficulty = difficulty;
-    if (sub_category) filter.sub_category = sub_category;
+    // if (category) filter.category = category;
+    // if (difficulty) filter.difficulty = difficulty;
+    // if (sub_category) filter.sub_category = sub_category;
 
-    const questions = await Question.find(filter);
-    res.json(questions);
+    // const questions = await Question.find(filter);
+    // res.json(questions);
+    const { category, difficulty, sub_category, tags } = req.query;
+const filter = {};
+
+if (category) filter.category = category;
+if (sub_category) filter.sub_category = sub_category;
+
+if (difficulty) {
+  filter.difficulty = { $in: difficulty.split(",") };
+}
+
+if (tags) {
+  filter.tags = { $in: tags.split(",") };
+}
+
+const questions = await Question.find(filter);
+res.json(questions);
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

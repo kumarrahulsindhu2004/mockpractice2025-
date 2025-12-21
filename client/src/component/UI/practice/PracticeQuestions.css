@@ -66,3 +66,81 @@
   border-radius: 999px;
   border: 1px solid #c7d2fe;
 }
+.explanation-toggle {
+  margin-top: 10px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.explanation-toggle:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.explanation-toggle.open {
+  background: #0f172a;
+}
+.explanation-box {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+}
+
+.explanation-box.show {
+  max-height: 300px; /* enough for long explanations */
+  opacity: 1;
+}
+
+.explanation-box p {
+  background: #f1f5f9;
+  border-left: 4px solid #2563eb;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #334155;
+  line-height: 1.5;
+}
+.practice-wrapper {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+}
+
+/* FILTER PANEL */
+.filter-panel {
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  height: fit-content;
+}
+
+.filter-panel h4 {
+  margin: 12px 0 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.filter-panel label {
+  display: flex;
+  gap: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+/* QUESTIONS AREA */
+.questions-area {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
