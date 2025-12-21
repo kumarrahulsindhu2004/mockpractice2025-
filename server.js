@@ -4,7 +4,7 @@ import cors from "cors";
 import userRoutes from "./routes/userRoutes.js";
 import QuestionRoutes from "./routes/QuestionRoutes.js";
 import { jwtAuthMiddleware } from "./jwt.js";
-
+import ProgressRoutes from "./routes/ProgressRoutes.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -27,6 +27,7 @@ connectDB();
 // ✅ Routes
 app.use("/user", userRoutes);
 app.use("/question", jwtAuthMiddleware, QuestionRoutes);
+app.use("/progress",jwtAuthMiddleware,ProgressRoutes)
 
 app.listen(PORT, () => {
   console.log("✅ Server running on port", PORT);

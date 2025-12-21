@@ -78,6 +78,18 @@ res.json(questions);
   }
 });
 
+// ✅ GET ALL TAGS (MUST BE ABOVE :id)
+router.get("/tags", async (req, res) => {
+  try {
+    const tags = await Question.distinct("tags");
+    res.json(tags);
+  } catch (err) {
+    console.error("Tags fetch error:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 // ✅ Get Question by ID
 router.get("/:id", async (req, res) => {
   try {
