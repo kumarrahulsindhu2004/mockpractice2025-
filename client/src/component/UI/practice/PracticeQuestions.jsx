@@ -23,9 +23,9 @@ export default function PracticeQuestions() {
 
   return (
     <>
-      <button className="back-btn" onClick={() => navigate(`/practice/${category}`)}>
+      {/* <button className="back-btn" onClick={() => navigate(`/practice/${category}`)}>
         ← Back
-      </button>
+      </button> */}
 
       <h2 className="title">{subcategory.replace("_", " ").toUpperCase()}</h2>
 
@@ -75,6 +75,18 @@ export default function PracticeQuestions() {
                 )}
               </>
             )}
+            {/* Tags / Asked In */}
+{q.tags?.length > 0 && (
+  <div className="question-tags">
+    <span className="asked-label">Asked in:</span>
+    {q.tags.map((tag, idx) => (
+      <span key={idx} className="tag-badge">
+        {tag.toUpperCase()}
+      </span>
+    ))}
+  </div>
+)}
+
           </div>
         );
       })}

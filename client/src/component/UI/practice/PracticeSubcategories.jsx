@@ -15,9 +15,7 @@ export default function PracticeSubcategories() {
 
   return (
     <>
-      <button className="back-btn" onClick={() => navigate("/practice")}>
-        ← Back
-      </button>
+      
 
       <div className="subcategory-grid">
         {subs.map(sub => (
