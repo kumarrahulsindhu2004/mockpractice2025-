@@ -30,6 +30,49 @@ html, body {
 }
 
 /* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #10b981;
+  color: white;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.logo-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.1;
+}
+
+.logo-accent {
+  color: #10b981;
+}
+
+.logo-text small {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #6b7280;
+}
+@media (max-width: 768px) {
+  .logo-text small {
+    display: none;
+  }
+}
+
 .navbar-brand {
   font-weight: 700;
   font-size: 1.25rem;

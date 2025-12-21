@@ -76,9 +76,17 @@ const Header = () => {
     <nav className="navbar">
       <div className="navbar-content">
         {/* Logo */}
-        <Link to="/" className="navbar-brand" onClick={handleLinkClick}>
+        {/* <Link to="/" className="navbar-brand" onClick={handleLinkClick}>
           🎯 Mock Practice
-        </Link>
+        </Link> */}
+        <Link to="/" className="navbar-brand logo">
+  <span className="logo-icon">P</span>
+  <span className="logo-text">
+    Mock<span className="logo-accent">P</span>
+    <small>Practice Platform</small>
+  </span>
+</Link>
+
 
         {/* Hamburger for mobile */}
         <button

@@ -1,0 +1,21 @@
+.subcategory-grid {
+  max-width: 900px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.subcategory-card {
+  background: white;
+  padding: 1.6rem;
+  border-radius: 16px;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.08);
+  text-align: center;
+  cursor: pointer;
+}
+
+.view-btn {
+  color: #2563eb;
+  font-weight: 600;
+}
