@@ -10,26 +10,26 @@ export default function PracticeQuestions() {
   const [attempted, setAttempted] = useState({});
   const [showExp, setShowExp] = useState({});
   const [justAnsweredIds, setJustAnsweredIds] = useState(new Set());
-  
-
-  // DB-based solved
   const [solvedIds, setSolvedIds] = useState(new Set());
 
-
   const [filters, setFilters] = useState({
-    status: { solved: false, unsolved: true }, // ✅ default UNSOLVED
+    status: { solved: false, unsolved: true },
     difficulty: [],
     exams: [],
   });
 
-  /* ---------------- FETCH SOLVED IDS (DB) ---------------- */
+  // ✅ Mobile filter state
+  const [openFilter, setOpenFilter] = useState(null);
+  const isMobile = window.innerWidth <= 768;
+
+  /* ---------------- FETCH SOLVED ---------------- */
   useEffect(() => {
     API.get("/progress/solved")
       .then(res => setSolvedIds(new Set(res.data)))
       .catch(console.error);
   }, []);
 
-  /* ---------------- FETCH ATTEMPTS (DB) ---------------- */
+  /* ---------------- FETCH ATTEMPTS ---------------- */
   useEffect(() => {
     API.get("/progress/my").then(res => {
       const map = {};
@@ -57,22 +57,12 @@ export default function PracticeQuestions() {
       .then(res => setQuestions(res.data));
   }, [category, subcategory, filters]);
 
-  /* ---------------- ANSWER HANDLER ---------------- */
-
-
+  /* ---------------- HANDLERS ---------------- */
   const handleAnswer = async (q, selectedIdx) => {
     if (attempted[q._id] !== undefined) return;
 
-    setAttempted(prev => ({
-      ...prev,
-      [q._id]: selectedIdx,
-    }));
-
-    setJustAnsweredIds(prev => {
-      const next = new Set(prev);
-      next.add(q._id);
-      return next;
-    });
+    setAttempted(prev => ({ ...prev, [q._id]: selectedIdx }));
+    setJustAnsweredIds(prev => new Set(prev).add(q._id));
 
     const correctIndex = q.options.findIndex(o => o.is_correct);
     const isCorrect = selectedIdx === correctIndex;
@@ -84,27 +74,9 @@ export default function PracticeQuestions() {
         isCorrect,
       });
     } catch (err) {
-      console.error("Failed to save progress", err);
+      console.error(err);
     }
   };
-
-
-  /* ---------------- FILTER LOGIC (FIXED) ---------------- */
-
- 
-  const filteredQuestions = questions.filter(q => {
-    const solvedInDB = solvedIds.has(q._id);
-    const justSolvedNow = justAnsweredIds.has(q._id);
-
-    // Treat just-answered questions as UNSOLVED for this session
-    const effectiveSolved = solvedInDB && !justSolvedNow;
-
-    if (filters.status.solved && !effectiveSolved) return false;
-    if (filters.status.unsolved && effectiveSolved) return false;
-
-    return true;
-  });
-
 
   const toggleMulti = (group, value) => {
     setFilters(prev => ({
@@ -115,7 +87,7 @@ export default function PracticeQuestions() {
     }));
   };
 
-  const handleStatusChange = (type) => {
+  const handleStatusChange = type => {
     setFilters(prev => ({
       ...prev,
       status: {
@@ -125,54 +97,132 @@ export default function PracticeQuestions() {
     }));
   };
 
+  /* ---------------- FILTERED QUESTIONS ---------------- */
+  const filteredQuestions = questions.filter(q => {
+    const solvedInDB = solvedIds.has(q._id);
+    const justSolvedNow = justAnsweredIds.has(q._id);
+    const effectiveSolved = solvedInDB && !justSolvedNow;
+
+    if (filters.status.solved && !effectiveSolved) return false;
+    if (filters.status.unsolved && effectiveSolved) return false;
+
+    return true;
+  });
 
   return (
     <div className="practice-wrapper">
 
-      {/* ================= FILTER PANEL ================= */}
-      <aside className="filter-panel">
-        <h4>Status</h4>
-
-        <label>
-          <input
-            type="checkbox"
-            checked={filters.status.unsolved}
-            onChange={() => handleStatusChange("unsolved")}
-          />
-          Unsolved
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            checked={filters.status.solved}
-            onChange={() => handleStatusChange("solved")}
-          />
-          Solved
-        </label>
-
-        <h4>Difficulty</h4>
-        {["easy", "medium", "hard"].map(d => (
-          <label key={d}>
+      {/* ================= DESKTOP FILTER ================= */}
+      {!isMobile && (
+        <aside className="filter-panel">
+          <h4>Status</h4>
+          <label>
             <input
               type="checkbox"
-              onChange={() => toggleMulti("difficulty", d)}
+              checked={filters.status.unsolved}
+              onChange={() => handleStatusChange("unsolved")}
             />
-            {d.toUpperCase()}
+            Unsolved
           </label>
-        ))}
-
-        <h4>Target Exam</h4>
-        {["tcs", "wipro", "rrb"].map(exam => (
-          <label key={exam}>
+          <label>
             <input
               type="checkbox"
-              onChange={() => toggleMulti("exams", exam)}
+              checked={filters.status.solved}
+              onChange={() => handleStatusChange("solved")}
             />
-            {exam.toUpperCase()}
+            Solved
           </label>
-        ))}
-      </aside>
+
+          <h4>Difficulty</h4>
+          {["easy", "medium", "hard"].map(d => (
+            <label key={d}>
+              <input
+                type="checkbox"
+                onChange={() => toggleMulti("difficulty", d)}
+              />
+              {d.toUpperCase()}
+            </label>
+          ))}
+
+          <h4>Target Exam</h4>
+          {["tcs", "wipro", "rrb"].map(exam => (
+            <label key={exam}>
+              <input
+                type="checkbox"
+                onChange={() => toggleMulti("exams", exam)}
+              />
+              {exam.toUpperCase()}
+            </label>
+          ))}
+        </aside>
+      )}
+
+      {/* ================= MOBILE FILTER BAR ================= */}
+      {isMobile && (
+        <div className="mobile-filter-bar">
+          <button onClick={() => setOpenFilter("status")}>Status ▾</button>
+          <button onClick={() => setOpenFilter("difficulty")}>Difficulty ▾</button>
+          <button onClick={() => setOpenFilter("exam")}>Target Exam ▾</button>
+        </div>
+      )}
+
+      {/* ================= MOBILE SHEETS ================= */}
+      {openFilter === "status" && (
+        <div className="mobile-filter-sheet">
+          <h4>Status</h4>
+          <label>
+            <input
+              type="radio"
+              checked={filters.status.unsolved}
+              onChange={() => handleStatusChange("unsolved")}
+            />
+            Unsolved
+          </label>
+          <label>
+            <input
+              type="radio"
+              checked={filters.status.solved}
+              onChange={() => handleStatusChange("solved")}
+            />
+            Solved
+          </label>
+          <button onClick={() => setOpenFilter(null)}>Apply</button>
+        </div>
+      )}
+
+      {openFilter === "difficulty" && (
+        <div className="mobile-filter-sheet">
+          <h4>Difficulty</h4>
+          {["easy", "medium", "hard"].map(d => (
+            <label key={d}>
+              <input
+                type="checkbox"
+                checked={filters.difficulty.includes(d)}
+                onChange={() => toggleMulti("difficulty", d)}
+              />
+              {d.toUpperCase()}
+            </label>
+          ))}
+          <button onClick={() => setOpenFilter(null)}>Apply</button>
+        </div>
+      )}
+
+      {openFilter === "exam" && (
+        <div className="mobile-filter-sheet">
+          <h4>Target Exam</h4>
+          {["tcs", "wipro", "rrb"].map(exam => (
+            <label key={exam}>
+              <input
+                type="checkbox"
+                checked={filters.exams.includes(exam)}
+                onChange={() => toggleMulti("exams", exam)}
+              />
+              {exam.toUpperCase()}
+            </label>
+          ))}
+          <button onClick={() => setOpenFilter(null)}>Apply</button>
+        </div>
+      )}
 
       {/* ================= QUESTIONS ================= */}
       <main className="questions-area">
@@ -182,7 +232,6 @@ export default function PracticeQuestions() {
 
         {filteredQuestions.map((q, i) => {
           const selected = attempted[q._id];
-
           return (
             <div key={q._id} className="question-card">
               <h3>Q{i + 1}</h3>
@@ -196,7 +245,6 @@ export default function PracticeQuestions() {
                     else if (selected === idx) cls += " wrong";
                     else cls += " disabled";
                   }
-
                   return (
                     <button
                       key={idx}
@@ -209,49 +257,6 @@ export default function PracticeQuestions() {
                   );
                 })}
               </div>
-
-              {/* Explanation */}
-              {/* Explanation */}
-{selected !== undefined && q.explanation && (
-  <>
-    <button
-      className={`explanation-toggle ${
-        showExp[q._id] ? "open" : ""
-      }`}
-      onClick={() =>
-        setShowExp(prev => ({
-          ...prev,
-          [q._id]: !prev[q._id],
-        }))
-      }
-    >
-      {showExp[q._id]
-        ? "Hide Explanation ▲"
-        : "Show Explanation ▼"}
-    </button>
-
-    <div
-      className={`explanation-box ${
-        showExp[q._id] ? "show" : ""
-      }`}
-    >
-      <p>{q.explanation}</p>
-    </div>
-  </>
-)}
-
-
-              {/* Tags */}
-              {q.tags?.length > 0 && (
-                <div className="question-tags">
-                  <span className="asked-label">Asked in:</span>
-                  {q.tags.map((tag, idx) => (
-                    <span key={idx} className="tag-badge">
-                      {tag.toUpperCase()}
-                    </span>
-                  ))}
-                </div>
-              )}
             </div>
           );
         })}

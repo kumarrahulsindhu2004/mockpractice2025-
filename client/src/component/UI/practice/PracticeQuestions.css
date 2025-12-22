@@ -302,3 +302,61 @@
     overflow: visible;
   }
 }
+
+
+/* ===== MOBILE FILTER BAR ===== */
+.mobile-filter-bar {
+  position: sticky;
+  top: 56px;
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  background: white;
+  z-index: 50;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.mobile-filter-bar button {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #c7d2fe;
+  background: #eef2ff;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ===== MOBILE BOTTOM SHEET ===== */
+.mobile-filter-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 16px;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -8px 24px rgba(0,0,0,0.25);
+  z-index: 100;
+}
+
+.mobile-filter-sheet h4 {
+  margin-bottom: 12px;
+}
+
+.mobile-filter-sheet label {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.mobile-filter-sheet button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+}
