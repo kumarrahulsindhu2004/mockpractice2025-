@@ -360,3 +360,50 @@
   color: white;
   font-weight: 600;
 }
+
+
+
+
+
+
+/* updated code */
+/* MOBILE FIX */
+@media (max-width: 768px) {
+
+  .practice-wrapper {
+    grid-template-columns: 1fr !important;
+    padding: 10px;
+    gap: 12px;
+  }
+
+  /* questions should scroll with page, NOT inside container */
+  .questions-area {
+    max-height: none !important;
+    overflow: visible !important;
+    padding-right: 0;
+  }
+
+  /* question cards smaller on phone */
+  .question-card {
+    padding: 1.2rem;
+    border-radius: 14px;
+  }
+
+  /* prevent options from breaking width */
+  .option {
+    width: 100%;
+  }
+
+  /* filter panel should NOT be sticky on mobile */
+  .filter-panel {
+    position: static !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  /* bottom sheet stays nice */
+  .mobile-filter-sheet {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+}
