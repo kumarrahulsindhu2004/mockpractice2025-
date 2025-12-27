@@ -1,26 +1,24 @@
 import React, { useState } from "react";
 import { loginUser } from "../../services/api";
-import "./login.css";
 import { Link } from "react-router-dom";
+import "./login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
 
-  // 🔍 Validate input fields
   const validateForm = () => {
     const newErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!email || !emailRegex.test(email)) {
-      newErrors.email = "Please enter a valid email address.";
-    }
+    if (!email || !emailRegex.test(email))
+      newErrors.email = "Enter a valid email address";
 
-    if (!password || password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters long.";
-    }
+    if (!password || password.length < 6)
+      newErrors.password = "Minimum 6 characters required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -30,19 +28,15 @@ function Login() {
     if (!validateForm()) return;
     setLoading(true);
 
-    const payload = { email, password };
-
     try {
-      const res = await loginUser(payload);
+      const res = await loginUser({ email, password });
       localStorage.setItem("token", JSON.stringify(res.data.token));
       localStorage.setItem("user", JSON.stringify(res.data.user));
       alert("Login Successful");
-      setEmail("");
-      setPassword("");
       window.location.href = "/";
     } catch (err) {
-      alert("Login Failed");
-      console.error("Login Failed", err);
+      alert("Invalid credentials — please try again");
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -50,39 +44,48 @@ function Login() {
 
   return (
     <div className="login-page">
-      <div className="login-card">
-        <h1>Login</h1>
+      <div className="login-card glass">
+        <h1 className="login-title">Welcome Back 👋</h1>
+        <p className="login-subtitle">Continue your learning journey</p>
 
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          className="login-input"
-        />
+        <div className={`input-wrapper ${errors.email ? "error" : ""}`}>
+          <input
+            type="text"
+            value={email}
+            placeholder="Email address"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
         {errors.email && <p className="error-text">{errors.email}</p>}
 
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          className="login-input"
-        />
+        <div className={`input-wrapper ${errors.password ? "error" : ""}`}>
+          <input
+            type={showPassword ? "text" : "password"}
+            value={password}
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <span
+            className="toggle-password"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? "🙈" : "👁️"}
+          </span>
+        </div>
         {errors.password && <p className="error-text">{errors.password}</p>}
 
         <button
-          onClick={handleSubmit}
-          className="login-button"
+          className="login-button rich"
           disabled={loading}
+          onClick={handleSubmit}
         >
-          {loading ? "Logging in..." : "Login"}
+          {loading ? "Signing in..." : "Login"}
         </button>
 
-        {loading && <div className="loader"></div>}
+        {loading && <div className="loader" />}
 
         <p className="login-footer">
-          Don’t have an account? <Link to ="/signup">Sign Up</Link>
+          Don’t have an account? <Link to="/signup">Create one</Link>
         </p>
       </div>
     </div>

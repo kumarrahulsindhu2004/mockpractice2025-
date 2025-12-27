@@ -233,31 +233,63 @@ export default function PracticeQuestions() {
         {filteredQuestions.map((q, i) => {
           const selected = attempted[q._id];
           return (
-            <div key={q._id} className="question-card">
-              <h3>Q{i + 1}</h3>
-              <p>{q.question_text}</p>
+           <div key={q._id} className="question-card">
+  <h3>Q{i + 1}</h3>
+  <p>{q.question_text}</p>
+  {/* TAGS */}
+{q.tags?.length > 0 && (
+  <div className="question-tags">
+    <span className="asked-label">Asked In:</span>
 
-              <div className="options">
-                {q.options.map((opt, idx) => {
-                  let cls = "option";
-                  if (selected !== undefined) {
-                    if (opt.is_correct) cls += " correct";
-                    else if (selected === idx) cls += " wrong";
-                    else cls += " disabled";
-                  }
-                  return (
-                    <button
-                      key={idx}
-                      className={cls}
-                      disabled={selected !== undefined}
-                      onClick={() => handleAnswer(q, idx)}
-                    >
-                      {opt.option}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+    {q.tags.map((t, idx) => (
+      <span key={idx} className="tag-badge">
+        {t.toUpperCase()}
+      </span>
+    ))}
+  </div>
+)}
+
+
+  <div className="options">
+    {q.options.map((opt, idx) => {
+      let cls = "option";
+
+      const selected = attempted[q._id];
+
+      if (selected !== undefined) {
+        if (opt.is_correct) cls += " correct";
+        else if (selected === idx) cls += " wrong";
+        else cls += " disabled";
+      }
+
+      return (
+        <button
+          key={idx}
+          className={cls}
+          disabled={selected !== undefined}
+          onClick={() => handleAnswer(q, idx)}
+        >
+          {opt.option}
+        </button>
+      );
+    })}
+  </div>
+
+  {/* 👇 ADD THESE */}
+  <button
+    className={`explanation-toggle ${showExp[q._id] ? "open" : ""}`}
+    onClick={() =>
+      setShowExp(prev => ({ ...prev, [q._id]: !prev[q._id] }))
+    }
+  >
+    {showExp[q._id] ? "Hide Explanation" : "Show Explanation"}
+  </button>
+
+  <div className={`explanation-box ${showExp[q._id] ? "show" : ""}`}>
+    <p>{q.explanation || "No explanation provided."}</p>
+  </div>
+</div>
+
           );
         })}
       </main>
