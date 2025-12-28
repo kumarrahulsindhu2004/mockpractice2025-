@@ -10,7 +10,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 80px 5% 60px;
-  max-width: 1200px;
+  /* max-width: 1200px; */
+  max-width: 100%;
   margin: 0 auto;
   gap: 60px;
 }
@@ -119,7 +120,7 @@
   gap: 12px;
   font-weight: 600;
   color: #1e293b;
-  animation: float 3s ease-in-out infinite;
+  animation: float 6s ease-in-out infinite;
 }
 
 .card-1 {
@@ -131,20 +132,20 @@
 .card-2 {
   top: 50%;
   right: 10%;
-  animation-delay: 1s;
+  animation-delay: 8s;
 }
 
 .card-3 {
   bottom: 20%;
   left: 20%;
-  animation-delay: 2s;
+  animation-delay: 1.2s;
 }
 
 .card-icon {
   font-size: 1.5rem;
 }
 
-@keyframes float {
+/* @keyframes float {
   0%,
   100% {
     transform: translateY(0px);
@@ -152,7 +153,17 @@
   50% {
     transform: translateY(-10px);
   }
+} */
+
+
+@keyframes float {
+  0%   { transform: translate(-6px, 0) rotate(0deg); }
+  25%  { transform: translate(8px, -14px) rotate(1deg); }
+  50%  { transform: translate(0, -22px) rotate(-1deg); }
+  75%  { transform: translate(-10px, -10px) rotate(1deg); }
+  100% { transform: translate(-6px, 0) rotate(0deg); }
 }
+
 
 /* Features Section */
 .features-section {

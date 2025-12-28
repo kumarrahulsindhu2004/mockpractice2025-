@@ -115,6 +115,8 @@ export default function PracticeQuestions() {
       {/* ================= DESKTOP FILTER ================= */}
       {!isMobile && (
         <aside className="filter-panel">
+          <h2>Filter</h2>
+          
           <h4>Status</h4>
           <label>
             <input
@@ -145,7 +147,7 @@ export default function PracticeQuestions() {
           ))}
 
           <h4>Target Exam</h4>
-          {["tcs", "wipro", "rrb"].map(exam => (
+          {[ "wipro", "tcs","rrb","ssc","Infosys","Accenture"].map(exam => (
             <label key={exam}>
               <input
                 type="checkbox"
@@ -233,62 +235,71 @@ export default function PracticeQuestions() {
         {filteredQuestions.map((q, i) => {
           const selected = attempted[q._id];
           return (
-           <div key={q._id} className="question-card">
-  <h3>Q{i + 1}</h3>
-  <p>{q.question_text}</p>
-  {/* TAGS */}
-{q.tags?.length > 0 && (
-  <div className="question-tags">
-    <span className="asked-label">Asked In:</span>
+            <div key={q._id} className={`question-card fancy  ${attempted[q._id] !== undefined ? "answered" : ""}`}>
 
-    {q.tags.map((t, idx) => (
-      <span key={idx} className="tag-badge">
-        {t.toUpperCase()}
-      </span>
-    ))}
-  </div>
-)}
+              <div className="q-header">
+                <span className="q-badge">Q{i + 1}</span>
+
+                <span className={`diff-badge ${q.difficulty}`}>
+                  {q.difficulty}
+                </span>
+              </div>
+
+              <p className="q-text">{q.question_text}</p>
+
+              {/* TAGS */}
+              {q.tags?.length > 0 && (
+                <div className="question-tags">
+                  <span className="asked-label">Asked In:</span>
+
+                  {q.tags.map((t, idx) => (
+                    <span key={idx} className="tag-badge">
+                      {t.toUpperCase()}
+                    </span>
+                  ))}
+                </div>
+              )}
 
 
-  <div className="options">
-    {q.options.map((opt, idx) => {
-      let cls = "option";
+              <div className="options">
+                {q.options.map((opt, idx) => {
+                  let cls = "option";
 
-      const selected = attempted[q._id];
+                  const selected = attempted[q._id];
 
-      if (selected !== undefined) {
-        if (opt.is_correct) cls += " correct";
-        else if (selected === idx) cls += " wrong";
-        else cls += " disabled";
-      }
+                  if (selected !== undefined) {
+                    if (opt.is_correct) cls += " correct";
+                    else if (selected === idx) cls += " wrong";
+                    else cls += " disabled";
+                  }
 
-      return (
-        <button
-          key={idx}
-          className={cls}
-          disabled={selected !== undefined}
-          onClick={() => handleAnswer(q, idx)}
-        >
-          {opt.option}
-        </button>
-      );
-    })}
-  </div>
+                  return (
+                    <button
+                      key={idx}
+                      className={cls}
+                      disabled={selected !== undefined}
+                      onClick={() => handleAnswer(q, idx)}
+                    >
+                      {opt.option}
+                    </button>
+                  );
+                })}
+              </div>
 
-  {/* 👇 ADD THESE */}
-  <button
-    className={`explanation-toggle ${showExp[q._id] ? "open" : ""}`}
-    onClick={() =>
-      setShowExp(prev => ({ ...prev, [q._id]: !prev[q._id] }))
-    }
-  >
-    {showExp[q._id] ? "Hide Explanation" : "Show Explanation"}
-  </button>
+              {/* 👇 ADD THESE */}
+              <button
+                className={`explanation-toggle ${showExp[q._id] ? "open" : ""}`}
+                onClick={() =>
+                  setShowExp(prev => ({ ...prev, [q._id]: !prev[q._id] }))
+                }
+              >
+                {showExp[q._id] ? "Hide Explanation" : "Show Explanation"}
+              </button>
 
-  <div className={`explanation-box ${showExp[q._id] ? "show" : ""}`}>
-    <p>{q.explanation || "No explanation provided."}</p>
-  </div>
-</div>
+              <div className={`explanation-box ${showExp[q._id] ? "show" : ""}`}>
+                <p>{q.explanation || "No explanation provided."}</p>
+              </div>
+            </div>
 
           );
         })}

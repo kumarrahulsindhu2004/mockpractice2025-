@@ -14,17 +14,15 @@ const userSchema = new mongoose.Schema({
     },
     age:{
         type:Number,
-        required:true
     },
    mobile: {
       type: String,
-      required: true,
       unique: true,
       match: [/^\d{10}$/, "Please enter a valid 10-digit mobile number"],
     },
      address:{
         type:String,
-        required:true
+        
     },
      password: {
       type: String,
