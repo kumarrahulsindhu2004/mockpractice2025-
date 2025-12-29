@@ -1,0 +1,33 @@
+[33m78dd3e9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33m57b65bb[m HEAD@{1}: commit: improve ui
+[33m78dd3e9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{2}: commit: updated fix
+[33m9ec8206[m HEAD@{3}: commit: updated fix
+[33m77ac385[m HEAD@{4}: commit: fixed updated code
+[33mbcaf2d8[m HEAD@{5}: commit: fixed bugs
+[33m08a8437[m HEAD@{6}: commit: some fix ui
+[33m4c2c031[m HEAD@{7}: commit: some fix ui
+[33m4324cf7[m HEAD@{8}: commit: new ui
+[33me0b31eb[m HEAD@{9}: commit: ui
+[33m82535b5[m HEAD@{10}: commit: Added practice questions and UI updates
+[33mf44e6d2[m HEAD@{11}: commit: try
+[33md1a7886[m HEAD@{12}: commit: practtice route
+[33mb2d2a3a[m HEAD@{13}: commit: practtice route
+[33m6d7b3b5[m HEAD@{14}: commit: loading state
+[33m45a9660[m HEAD@{15}: commit: v6
+[33ma59b7f7[m HEAD@{16}: commit: v5
+[33m3be9a21[m HEAD@{17}: commit: altested
+[33m8238254[m HEAD@{18}: commit: altested
+[33m56d1bbc[m HEAD@{19}: commit: updated
+[33md824523[m HEAD@{20}: commit: updated
+[33m7126f07[m HEAD@{21}: commit: updated
+[33ma33a036[m HEAD@{22}: commit: updated code
+[33m6d2bdc0[m HEAD@{23}: commit: updated code
+[33m8083ac4[m HEAD@{24}: commit: altest update
+[33m2807989[m HEAD@{25}: commit: backend deployed
+[33mcf9c4b2[m HEAD@{26}: commit: backend deployed
+[33mef25672[m HEAD@{27}: commit: updated
+[33mf55dd90[m HEAD@{28}: commit: updated
+[33md73b2c2[m HEAD@{29}: commit: updated
+[33me6c0ae9[m HEAD@{30}: commit: updated
+[33mbbf8cd5[m HEAD@{31}: Branch: renamed refs/heads/master to refs/heads/main
+[33mbbf8cd5[m HEAD@{33}: commit (initial): Initial commit

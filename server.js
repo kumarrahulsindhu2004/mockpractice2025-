@@ -12,7 +12,9 @@ const PORT = process.env.PORT || 3000;
 const corsOptions = {
   origin: [
     "http://localhost:5173",
-    "https://mockpractice2k25.netlify.app"
+    "https://mockpractice2k25.netlify.app",
+    "https://mockp.in",
+    "https://www.mockp.in",
   ],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
