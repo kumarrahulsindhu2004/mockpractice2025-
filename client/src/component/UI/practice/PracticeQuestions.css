@@ -7,6 +7,10 @@
   text-transform: capitalize;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 550;
+
+  position: relative;
+  width: 100%;
+  overflow: hidden;
 }
 
 /* .question-card.fancy {
@@ -308,5 +312,48 @@
   .questions-area {
     width: 100%;
     max-width: 1000px;        /* ← wider, matches AI studio */
+  }
+}
+
+
+
+
+
+/* -- add  */
+
+@media (max-width: 768px) {
+
+  /* 🔧 Fix container overflow */
+  .practice-wrapper {
+    display: block;
+    padding: 8px;
+    width: 100%;
+  }
+
+  .questions-area {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* 🔧 Question card spacing */
+  .question-card.fancy {
+    padding: 1.2rem;
+    border-radius: 18px;
+  }
+
+  /* 🔧 Fix options overflow */
+  .options {
+    grid-template-columns: 1fr; /* ONE column only */
+  }
+
+  .option {
+    width: 100%;
+    font-size: 0.95rem;
+  }
+
+  /* 🔧 Explanation box safety */
+  .explanation-box p {
+    font-size: 0.9rem;
+    line-height: 1.5;
   }
 }
