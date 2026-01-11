@@ -8,14 +8,14 @@ import "./Header.css";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  // const [dropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
   // ✅ Toggle menu & dropdown
   const handleLinkClick = () => setMenuOpen(false);
   const toggleMenu = () => setMenuOpen(!menuOpen);
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+  // const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   // ✅ Safe JSON parse
   const safeParse = (value) => {
@@ -158,10 +158,18 @@ const Header = () => {
             </li>
           ) : (
             <li className="mobile-buttons">
-              <div className="profile-circle" onClick={toggleDropdown}>
+              {/* <div className="profile-circle" onClick={toggleDropdown}>
                 {getInitials(user.name)}
-              </div>
+              </div> */}
+
               <div
+  className="profile-circle"
+  onClick={() => navigate("/dashboard")}
+  title="Go to Dashboard"
+>
+  {getInitials(user.name)}
+</div>
+              {/* <div
                 className={`profile-dropdown ${dropdownOpen ? "active" : ""}`}
               >
                 <p>{user.name}</p>
@@ -169,38 +177,29 @@ const Header = () => {
                   Profile
                 </Link>
                 <button onClick={handleLogout}>Logout</button>
-              </div>
+              </div> */}
             </li>
           )}
         </ul>
 
         {/* Desktop Buttons */}
+
         <div className="navbar-actions">
           {!user ? (
-            <>
-              <Link to="/login" className="btn btn-outline">
-                Login
-              </Link>
-              <Link to="/signup" className="btn btn-primary">
-                Signup
-              </Link>
-            </>
-          ) : (
-            <div className="profile-wrapper">
-              <div className="profile-circle" onClick={toggleDropdown}>
-                {getInitials(user.name)}
-              </div>
-              <div
-                className={`profile-dropdown ${dropdownOpen ? "active" : ""}`}
-              >
-                <p>{user.name}</p>
-                <Link to="/profile" onClick={handleLinkClick}>
-                  Profile
-                </Link>
-                <button onClick={handleLogout}>Logout</button>
-              </div>
-            </div>
-          )}
+  <>
+    <Link to="/login" className="btn btn-outline">Login</Link>
+    <Link to="/signup" className="btn btn-primary">Signup</Link>
+  </>
+) : (
+  <div
+    className="profile-circle"
+    onClick={() => navigate("/dashboard")}
+    title="Go to Dashboard"
+  >
+    {getInitials(user.name)}
+  </div>
+)}
+
         </div>
       </div>
 

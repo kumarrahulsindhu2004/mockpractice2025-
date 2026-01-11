@@ -9,6 +9,7 @@ import PracticeLayout from "./component/UI/practice/PracticeLayout.jsx";
 import PracticeCategories from "./component/UI/practice/PracticeCategories.jsx";
 import PracticeSubcategories from "./component/UI/practice/PracticeSubcategories.jsx";
 import PracticeQuestions from "./component/UI/practice/PracticeQuestions.jsx";
+import Dashboard from "./component/UI/Dashboard.jsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -20,6 +21,7 @@ function App() {
         { path: "/login", element: <Login /> },
         { path: "/signup", element: <SignUp /> },
         { path: "/subject", element: <Subjects /> },
+        {path:"/dashboard", element:<Dashboard/>},
 
         {
           path: "/practice",

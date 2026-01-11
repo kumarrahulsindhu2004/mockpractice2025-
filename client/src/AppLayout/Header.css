@@ -206,7 +206,7 @@ html, body {
   cursor: pointer;
 }
 
-.profile-circle {
+/* .profile-circle {
   background-color: #007bff;
   color: white;
   width: 40px;
@@ -217,30 +217,23 @@ html, body {
   justify-content: center;
   font-weight: bold;
   font-size: 1rem;
-}
-.profile-dropdown {
-  display: none;
-  position: absolute;
-  top: 50px;
-  right: 0;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
-  padding: 10px;
-  min-width: 150px;
-  z-index: 2000; /* ✅ ensure above mobile nav */
-}
+} */
 
-/* ✅ Show dropdown when active */
-.profile-dropdown.active {
-  display: block;
-}
-
-.profile-dropdown p {
-  margin: 0;
+.profile-circle {
+  background-color: #10b981;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
+
+
 
 .profile-dropdown button,
 .profile-dropdown a {
@@ -254,12 +247,4 @@ html, body {
 }
 
 /* ✅ For mobile: make sure dropdown opens correctly inside menu */
-@media (max-width: 768px) {
-  .profile-dropdown {
-    position: fixed;
-    top: auto;
-    bottom: 80px; /* place it above bottom buttons */
-    right: 20px;
-    z-index: 3000;
-  }
-}
+

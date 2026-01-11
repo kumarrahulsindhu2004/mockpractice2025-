@@ -40,7 +40,11 @@ router.get("/my", jwtAuthMiddleware, async (req, res) => {
     const userId = req.user.id;
 
     const progress = await UserQuestionProgress.find({ user: userId })
-      .select("question isCorrect selectedOptionIndex");
+      // .select("question isCorrect selectedOptionIndex");
+     .populate("question", "category sub_category question_text")
+  .select("question isCorrect selectedOptionIndex attemptedAt")
+  .sort({ attemptedAt: -1 })
+  .limit(5);
 
     res.json(progress);
   } catch (err) {
@@ -67,6 +71,24 @@ router.get("/solved", jwtAuthMiddleware, async (req, res) => {
   }
 });
 
+// GET /progress/stats
+router.get("/stats", jwtAuthMiddleware, async (req, res) => {
+  const userId = req.user.id;
+
+  const attempts = await UserQuestionProgress.find({ user: userId });
+
+  const total = attempts.length;
+  const correct = attempts.filter(a => a.isCorrect).length;
+
+  const accuracy = total === 0 ? 0 : Math.round((correct / total) * 100);
+
+  res.json({
+    totalSolved: correct,
+    totalAttempted: total,
+    accuracy,
+    
+  });
+});
 
 
 export default router;
