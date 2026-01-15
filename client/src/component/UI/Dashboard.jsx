@@ -132,10 +132,11 @@ export default function Dashboard() {
     API.get("/progress/my").then(res => setRecent(res.data.slice(0, 4)));
   }, []);
 
-  const logout = () => {
-    localStorage.clear();
-    window.location.href = "/login";
-  };
+
+  // const logout = () => {
+  //   localStorage.clear();
+  //   window.location.href = "/login";
+  // };
 
   if (!user || !stats) return null;
 
@@ -145,9 +146,9 @@ export default function Dashboard() {
       {/* HEADER */}
       <div className="dashboard-header">
         <h1>Welcome, {user.name} 👋</h1>
-        <button className="logout-btn small" onClick={logout}>
+        {/* <button className="logout-btn small" onClick={logout}>
           Logout
-        </button>
+        </button> */}
       </div>
 
       {/* STATS */}
@@ -167,10 +168,10 @@ export default function Dashboard() {
           <p>{stats.totalSolved}</p>
         </div>
 
-        <div className="card">
+        {/* <div className="card">
           <h3>Current Streak</h3>
           <p>{stats.streak} Days</p>
-        </div>
+        </div> */}
       </div>
 
       {/* PROFILE */}

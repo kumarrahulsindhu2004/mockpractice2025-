@@ -233,6 +233,16 @@ html, body {
   cursor: pointer;
 }
 
+.header-user-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logout-btn {
+  padding: 6px 14px;
+  font-size: 14px;
+}
 
 
 .profile-dropdown button,

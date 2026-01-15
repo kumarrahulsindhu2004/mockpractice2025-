@@ -158,9 +158,7 @@ const Header = () => {
             </li>
           ) : (
             <li className="mobile-buttons">
-              {/* <div className="profile-circle" onClick={toggleDropdown}>
-                {getInitials(user.name)}
-              </div> */}
+              
 
               <div
   className="profile-circle"
@@ -169,15 +167,12 @@ const Header = () => {
 >
   {getInitials(user.name)}
 </div>
-              {/* <div
-                className={`profile-dropdown ${dropdownOpen ? "active" : ""}`}
-              >
-                <p>{user.name}</p>
-                <Link to="/profile" onClick={handleLinkClick}>
-                  Profile
-                </Link>
-                <button onClick={handleLogout}>Logout</button>
-              </div> */}
+                <button
+          className="btn btn-outline mobile-btn"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
             </li>
           )}
         </ul>
@@ -191,13 +186,31 @@ const Header = () => {
     <Link to="/signup" className="btn btn-primary">Signup</Link>
   </>
 ) : (
-  <div
-    className="profile-circle"
-    onClick={() => navigate("/dashboard")}
-    title="Go to Dashboard"
-  >
-    {getInitials(user.name)}
+  // <div
+  //   className="profile-circle"
+  //   onClick={() => navigate("/dashboard")}
+  //   title="Go to Dashboard"
+  // >
+  //   {getInitials(user.name)}
+  // </div>
+  <div className="header-user-actions">
+    <div
+      className="profile-circle"
+      onClick={() => navigate("/dashboard")}
+      title="Go to Dashboard"
+    >
+      {getInitials(user.name)}
+    </div>
+
+    <button
+      className="btn btn-outline logout-btn"
+      onClick={handleLogout}
+    >
+      Logout
+    </button>
   </div>
+
+  
 )}
 
         </div>
