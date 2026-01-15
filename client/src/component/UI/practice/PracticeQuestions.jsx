@@ -147,7 +147,7 @@ export default function PracticeQuestions() {
           ))}
 
           <h4>Target Exam</h4>
-          {[ "wipro", "tcs","rrb","ssc","Infosys","Accenture"].map(exam => (
+          {[ "Wipro", "TCS","Deloitte","RRB","SSC","Infosys","Accenture"].map(exam => (
             <label key={exam}>
               <input
                 type="checkbox"

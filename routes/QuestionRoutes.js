@@ -23,6 +23,56 @@ router.post("/", jwtAuthMiddleware, async (req, res) => {
   }
 });
 
+
+
+// ✅ Bulk Create Questions (Admin Only)
+// ✅ Bulk Create Questions (No Admin Restriction)
+router.post("/bulk", jwtAuthMiddleware, async (req, res) => {
+  try {
+    // ❌ REMOVED admin role check
+
+    if (!Array.isArray(req.body)) {
+      return res.status(400).json({ error: "Expected an array of questions" });
+    }
+
+    // Extract question texts (trimmed)
+    const texts = req.body
+      .filter(q => q.question_text)
+      .map(q => q.question_text.trim());
+
+    // Find already existing questions
+    const existing = await Question.find({
+      question_text: { $in: texts }
+    }).select("question_text");
+
+    const existingSet = new Set(existing.map(q => q.question_text));
+
+    // Filter new questions only
+    const newQuestions = req.body.filter(
+      q => q.question_text && !existingSet.has(q.question_text.trim())
+    );
+
+    if (newQuestions.length === 0) {
+      return res.status(400).json({ error: "All questions already exist" });
+    }
+
+    // Insert in bulk
+    const inserted = await Question.insertMany(newQuestions, {
+      ordered: false // continues even if one fails
+    });
+
+    res.status(201).json({
+      insertedCount: inserted.length,
+      inserted
+    });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+
 // ✅ Get subcategories BEFORE :id route
 router.get("/subcategory", async (req, res) => {
   try {

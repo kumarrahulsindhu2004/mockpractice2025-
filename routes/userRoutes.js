@@ -2,6 +2,8 @@ import express from "express";
 import {User} from "../models/user.js"
 import { generateToken,jwtAuthMiddleware }from "../jwt.js";
 const route = express.Router();
+
+
 route.post('/signup',async (req,res)=>{
     try {
         const data = req.body;

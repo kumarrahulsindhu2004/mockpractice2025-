@@ -112,7 +112,7 @@ const Header = () => {
           </li>
           <li>
             <Link
-              to="/leaderboard"
+              to="/contest"
               className={location.pathname === "/leaderboard" ? "active" : ""}
               onClick={handleLinkClick}
             >
