@@ -5,8 +5,8 @@ const categories = [
   { name: "aptitude", title: "Aptitude", subtitle: "Quantitative problem solving", icon: "📊" },
   { name: "reasoning", title: "Reasoning", subtitle: "Logical thinking", icon: "🧠" },
   { name: "english", title: "English", subtitle: "Grammar & comprehension", icon: "📘" },
-  { name: "computer", title: "Computer", subtitle: "CS fundamentals", icon: "💻" },
-  { name: "communication", title: "Communication", subtitle: "Speaking skills", icon: "🗣️" },
+  // { name: "computer", title: "Computer", subtitle: "CS fundamentals", icon: "💻" },
+  // { name: "communication", title: "Communication", subtitle: "Speaking skills", icon: "🗣️" },
 ];
 
 export default function PracticeCategories() {
