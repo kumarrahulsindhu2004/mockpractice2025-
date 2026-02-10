@@ -1,0 +1,30 @@
+.otp-container {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.otp-container input {
+  width: 100%;
+  padding: 12px;
+  margin: 15px 0;
+}
+
+.otp-container button {
+  width: 100%;
+  padding: 12px;
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.resend {
+  margin-top: 12px;
+  color: #2563eb;
+  cursor: pointer;
+}

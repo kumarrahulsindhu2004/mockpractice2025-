@@ -36,4 +36,10 @@ export const loginUser = (data) => API.post("/user/login", data);
 export const signupUser = (data) => API.post("/user/signup", data);
 export const getUserProfile = () => API.get("/user/profile");
 
+
+// export const signupUser = (data) => API.post("/user/signup", data);
+export const verifyEmailOtp = (data) => API.post("/user/verify-email", data);
+export const resendOtp = (data) => API.post("/user/resend-otp", data);
+
+
 export default API;

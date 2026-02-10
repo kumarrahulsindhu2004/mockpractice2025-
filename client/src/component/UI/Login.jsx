@@ -53,7 +53,7 @@ function Login() {
             type="text"
             value={email}
             placeholder="Email address"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)} 
           />
         </div>
         {errors.email && <p className="error-text">{errors.email}</p>}
