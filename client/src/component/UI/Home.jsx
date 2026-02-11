@@ -109,17 +109,17 @@ function Home() {
       <section className="stats-section">
         <div className="stats-grid">
           <div className="stat-item">
-            <div className="stat-number">10K+</div>
+            <div className="stat-number">10+</div>
             <div className="stat-label">Students</div>
           </div>
           <div className="stat-item">
-            <div className="stat-number">5K+</div>
+            <div className="stat-number">1K+</div>
             <div className="stat-label">Questions</div>
           </div>
-          <div className="stat-item">
+          {/* <div className="stat-item">
             <div className="stat-number">15+</div>
             <div className="stat-label">Subjects</div>
-          </div>
+          </div> */}
           <div className="stat-item">
             <div className="stat-number">95%</div>
             <div className="stat-label">Success Rate</div>
