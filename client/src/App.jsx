@@ -11,6 +11,9 @@ import PracticeSubcategories from "./component/UI/practice/PracticeSubcategories
 import PracticeQuestions from "./component/UI/practice/PracticeQuestions.jsx";
 import Dashboard from "./component/UI/Dashboard.jsx";
 import VerifyOtp from "./component/pages/verifyOtp/VerifyOtp.jsx";
+import Contest from "./component/pages/Contest.jsx";
+import Job from "./component/pages/Job.jsx";
+import Learn from "./component/pages/Learn.jsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -24,6 +27,9 @@ function App() {
         {path:"/verify-otp",element:<VerifyOtp/>},
         { path: "/subject", element: <Subjects /> },
         {path:"/dashboard", element:<Dashboard/>},
+        {path:"/contest",element:<Contest/>},
+        // {path:"/job",element:<Job/>},
+        // {path:'learn',element:<Learn/>},
 
         {
           path: "/practice",

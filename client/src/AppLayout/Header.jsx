@@ -119,7 +119,7 @@ const Header = () => {
               Contest
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link
               to="/learn"
               className={location.pathname === "/learn" ? "active" : ""}
@@ -136,7 +136,9 @@ const Header = () => {
             >
               Job
             </Link>
-          </li>
+          </li> */}
+
+
 
           {/* Mobile Buttons */}
           {!user ? (
