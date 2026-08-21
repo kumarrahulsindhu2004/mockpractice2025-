@@ -68,6 +68,7 @@
 // } 
 // export const User = mongoose.model('User',userSchema);
 
+
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt'
 const userSchema = new mongoose.Schema({
