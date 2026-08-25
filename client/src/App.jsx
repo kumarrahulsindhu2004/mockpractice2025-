@@ -10,6 +10,8 @@ import PracticeCategories from "./component/UI/practice/PracticeCategories.jsx";
 import PracticeSubcategories from "./component/UI/practice/PracticeSubcategories.jsx";
 import PracticeQuestions from "./component/UI/practice/PracticeQuestions.jsx";
 import Dashboard from "./component/UI/Dashboard.jsx";
+import History from "./component/UI/History.jsx";
+import Profile from "./component/UI/Profile.jsx";
 import VerifyOtp from "./component/pages/verifyOtp/VerifyOtp.jsx";
 import Contest from "./component/pages/Contest.jsx";
 import Job from "./component/pages/Job.jsx";
@@ -27,6 +29,8 @@ function App() {
         {path:"/verify-otp",element:<VerifyOtp/>},
         { path: "/subject", element: <Subjects /> },
         {path:"/dashboard", element:<Dashboard/>},
+        {path:"/history", element:<History/>},
+        {path:"/profile", element:<Profile/>},
         {path:"/contest",element:<Contest/>},
         // {path:"/job",element:<Job/>},
         // {path:'learn',element:<Learn/>},

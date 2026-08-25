@@ -1,22 +1,118 @@
 .practice-layout {
-  min-height: 100vh;
-  padding: 2.5rem 1.5rem;
-  background: linear-gradient(180deg, #f8fafc, #eef2ff);
-  font-family: "Inter", system-ui, sans-serif;
+  min-height: calc(100vh - 140px);
+  padding: 40px clamp(16px, 4vw, 40px) 56px;
+  background:
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(16, 185, 129, 0.08), transparent 55%),
+    var(--surface-2);
 }
 
 .practice-hero {
-  text-align: center;
-  margin-bottom: 2.5rem;
+  max-width: 960px;
+  margin: 0 auto 32px;
+  text-align: left;
+}
+
+.practice-eyebrow {
+  display: inline-block;
+  margin: 0 0 10px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--brand-soft);
+  color: var(--brand-dark);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
 .practice-hero h1 {
-  font-size: 2.4rem;
-  font-weight: 700;
-  color: #0f172a;
+  font-size: clamp(1.85rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0 0 8px;
 }
 
-.practice-hero p {
-  margin-top: 0.4rem;
-  color: #64748b;
+.practice-lead {
+  margin: 0;
+  max-width: 540px;
+  color: var(--ink-muted);
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+.hub-stats {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.hub-stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.hub-stat--accent {
+  border-color: #a7f3d0;
+  background: linear-gradient(180deg, #ecfdf5 0%, #fff 100%);
+}
+
+.hub-stat strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+.hub-stat span {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.practice-body {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.hub-loading {
+  text-align: center;
+  color: var(--ink-muted);
+  padding: 48px 16px;
+}
+
+@media (max-width: 900px) {
+  .hub-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .practice-layout {
+    padding: 20px 12px 40px;
+  }
+
+  .practice-hero {
+    margin-bottom: 20px;
+  }
+
+  .hub-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .hub-stat {
+    padding: 12px 10px;
+  }
+
+  .hub-stat strong {
+    font-size: 1.2rem;
+  }
 }

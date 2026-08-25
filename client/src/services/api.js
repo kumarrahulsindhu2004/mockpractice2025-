@@ -1,15 +1,25 @@
 import axios from "axios";
 
-// ✅ Base configuration
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  withCredentials: true, // needed for cookies if you use them later
+  withCredentials: true,
 });
 
-// ✅ Automatically attach token to requests
+const AUTH_PATHS = ["/user/login", "/user/signup", "/user/verify-email", "/user/resend-otp"];
+
+const safeParseToken = () => {
+  const raw = localStorage.getItem("token");
+  if (!raw || raw === "undefined" || raw === "null") return null;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+};
+
 API.interceptors.request.use(
   (config) => {
-    const token = JSON.parse(localStorage.getItem("token"));
+    const token = safeParseToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -18,28 +28,29 @@ API.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ✅ Handle expired tokens or 401s
 API.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
+    const status = error.response?.status;
+    const url = error.config?.url || "";
+    const isAuthRequest = AUTH_PATHS.some((path) => url.includes(path));
+
+    // Only clear session on 401 for protected routes — never on login/signup failures
+    if (status === 401 && !isAuthRequest) {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      window.location.href = "/login";
+      if (window.location.pathname !== "/login") {
+        window.location.href = "/login";
+      }
     }
     return Promise.reject(error);
   }
 );
 
-// ✅ API endpoints
 export const loginUser = (data) => API.post("/user/login", data);
 export const signupUser = (data) => API.post("/user/signup", data);
 export const getUserProfile = () => API.get("/user/profile");
-
-
-// export const signupUser = (data) => API.post("/user/signup", data);
 export const verifyEmailOtp = (data) => API.post("/user/verify-email", data);
 export const resendOtp = (data) => API.post("/user/resend-otp", data);
-
 
 export default API;

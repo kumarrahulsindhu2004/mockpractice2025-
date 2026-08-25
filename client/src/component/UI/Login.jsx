@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { loginUser } from "../../services/api";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 import "./login.css";
 
 function Login() {
@@ -29,14 +30,17 @@ function Login() {
     setLoading(true);
 
     try {
-      const res = await loginUser({ email, password });
+      const res = await loginUser({ email: email.trim().toLowerCase(), password });
       localStorage.setItem("token", JSON.stringify(res.data.token));
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      alert("Login Successful");
       window.location.href = "/";
     } catch (err) {
-      alert("Invalid credentials — please try again");
       console.error(err);
+      if (!err.response) {
+        toast.error("Cannot reach server. Make sure the API is running.");
+      } else {
+        toast.error(err.response.data?.error || "Invalid credentials — please try again");
+      }
     } finally {
       setLoading(false);
     }
@@ -45,8 +49,12 @@ function Login() {
   return (
     <div className="login-page">
       <div className="login-card glass">
-        <h1 className="login-title">Welcome Back 👋</h1>
-        <p className="login-subtitle">Continue your learning journey</p>
+        <div className="auth-brand">
+          <span className="auth-brand-mark">P</span>
+          <span>Mock<span>P</span></span>
+        </div>
+        <h1 className="login-title">Welcome back</h1>
+        <p className="login-subtitle">Sign in to continue your practice</p>
 
         <div className={`input-wrapper ${errors.email ? "error" : ""}`}>
           <input

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { verifyEmailOtp, resendOtp } from "../../../services/api";
-import "./verifyOtp.css"
+import toast from "react-hot-toast";
+import "./verifyOtp.css";
 
 function VerifyOtp() {
   const navigate = useNavigate();
@@ -9,28 +10,28 @@ function VerifyOtp() {
 
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
-  const [verified, setVerified] = useState(false); // ✅ NEW
+  const [verified, setVerified] = useState(false);
 
-  // ❗ redirect ONLY if email missing AND not verified
   if (!email && !verified) {
     navigate("/signup", { replace: true });
     return null;
   }
 
   const handleVerify = async () => {
+    if (otp.trim().length < 4) {
+      toast.error("Enter the OTP sent to your email");
+      return;
+    }
+
     setLoading(true);
     try {
       await verifyEmailOtp({ email, otp });
-
-      setVerified(true); // ✅ mark verified FIRST
+      setVerified(true);
       localStorage.removeItem("otpEmail");
-
-      alert("Email verified successfully!");
-
-      // ✅ hard redirect (no back navigation)
+      toast.success("Email verified successfully");
       navigate("/login", { replace: true });
     } catch (err) {
-      alert(err?.response?.data?.error || "Invalid OTP");
+      toast.error(err?.response?.data?.error || "Invalid OTP");
     } finally {
       setLoading(false);
     }
@@ -39,32 +40,38 @@ function VerifyOtp() {
   const handleResend = async () => {
     try {
       await resendOtp({ email });
-      alert("OTP resent to your email");
+      toast.success("OTP resent to your email");
     } catch {
-      alert("Failed to resend OTP");
+      toast.error("Failed to resend OTP");
     }
   };
 
   return (
-    <div className="otp-container">
-      <h2>Email Verification</h2>
-      <p>OTP sent to <b>{email}</b></p>
+    <div className="otp-page">
+      <div className="otp-card">
+        <div className="otp-brand">P</div>
+        <h2>Verify your email</h2>
+        <p>
+          We sent a code to <b>{email}</b>
+        </p>
 
-      <input
-        type="text"
-        placeholder="Enter 6-digit OTP"
-        value={otp}
-        onChange={(e) => setOtp(e.target.value)}
-        maxLength={6}
-      />
+        <input
+          type="text"
+          placeholder="Enter 6-digit OTP"
+          value={otp}
+          onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+          maxLength={6}
+          inputMode="numeric"
+        />
 
-      <button onClick={handleVerify} disabled={loading}>
-        {loading ? "Verifying..." : "Verify OTP"}
-      </button>
+        <button onClick={handleVerify} disabled={loading}>
+          {loading ? "Verifying..." : "Verify OTP"}
+        </button>
 
-      <p className="resend" onClick={handleResend}>
-        Resend OTP
-      </p>
+        <button type="button" className="otp-resend" onClick={handleResend}>
+          Resend OTP
+        </button>
+      </div>
     </div>
   );
 }

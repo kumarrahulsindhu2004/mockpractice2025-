@@ -1,0 +1,293 @@
+.hist-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 28px 20px 56px;
+}
+
+.hist-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+.hist-breadcrumb a {
+  color: var(--brand-dark);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.hist-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding: 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+.hist-eyebrow {
+  margin: 0 0 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--brand-dark);
+}
+
+.hist-hero h1 {
+  margin: 0 0 4px;
+  font-size: 1.6rem;
+}
+
+.hist-hero p {
+  margin: 0;
+  color: var(--ink-muted);
+}
+
+.hist-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--brand-dark);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.hist-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.hist-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hist-chip {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink-muted);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 0.8rem;
+  font-weight: 650;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+.hist-chip.active {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+
+.hist-count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.hist-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.hist-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hist-row-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.hist-row:last-child {
+  border-bottom: none;
+}
+
+.hist-row-main strong {
+  display: block;
+  text-transform: capitalize;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.hist-row-main p {
+  margin: 0 0 8px;
+  color: var(--ink-muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-transform: none;
+}
+
+.hist-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  text-transform: capitalize;
+}
+
+.hist-diff {
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.hist-diff--easy {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.hist-diff--medium {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+
+.hist-diff--hard {
+  background: var(--error-soft);
+  color: var(--error);
+}
+
+.hist-row em {
+  font-style: normal;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 5px 9px;
+  border-radius: 999px;
+}
+
+.hist-row em.ok {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.hist-row em.bad {
+  background: var(--error-soft);
+  color: var(--error);
+}
+
+.hist-open {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--brand-dark);
+  text-decoration: none;
+}
+
+.hist-empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+.hist-pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.hist-pager button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hist-pager button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 700px) {
+  .hist-page {
+    padding: 16px 12px 40px;
+  }
+
+  .hist-hero {
+    padding: 16px;
+    border-radius: 14px;
+    align-items: flex-start;
+  }
+
+  .hist-hero h1 {
+    font-size: 1.35rem;
+  }
+
+  .hist-back {
+    width: 100%;
+  }
+
+  .hist-toolbar {
+    align-items: flex-start;
+  }
+
+  .hist-filters {
+    width: 100%;
+  }
+
+  .hist-chip {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+
+  .hist-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .hist-row-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .hist-pager {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .hist-pager button {
+    flex: 1 1 120px;
+    min-height: 42px;
+  }
+}
