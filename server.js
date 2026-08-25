@@ -5,10 +5,10 @@ import userRoutes from "./routes/userRoutes.js";
 import QuestionRoutes from "./routes/QuestionRoutes.js";
 import { jwtAuthMiddleware } from "./jwt.js";
 import ProgressRoutes from "./routes/ProgressRoutes.js";
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ CORS configuration
 const corsOptions = {
   origin: [
     "http://localhost:5173",
@@ -21,16 +21,37 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-app.use(cors(corsOptions));  // ✅ This handles preflights automatically
-app.use(express.json());
+app.use(cors(corsOptions));
+app.use(express.json({ limit: "1mb" }));
 
-connectDB();
-
-// ✅ Routes
-app.use("/user", userRoutes);
-app.use("/question", jwtAuthMiddleware, QuestionRoutes);
-app.use("/progress",jwtAuthMiddleware,ProgressRoutes)
-
-app.listen(PORT, () => {
-  console.log("✅ Server running on port", PORT);
+app.get("/health", (_req, res) => {
+  res.json({ ok: true, service: "mockp-mcq", time: new Date().toISOString() });
 });
+
+// Auth + profile
+app.use("/user", userRoutes);
+
+// MCQ practice (aptitude / reasoning / english)
+// GET is open to logged-in flow via client JWT; writes need admin inside routes
+app.use("/question", jwtAuthMiddleware, QuestionRoutes);
+
+// Progress requires login
+app.use("/progress", jwtAuthMiddleware, ProgressRoutes);
+
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
+});
+
+app.use((err, _req, res, _next) => {
+  console.error(err);
+  res.status(500).json({ error: "Internal Server Error" });
+});
+
+async function start() {
+  await connectDB();
+  app.listen(PORT, () => {
+    console.log("✅ Server running on port", PORT);
+  });
+}
+
+start();

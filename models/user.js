@@ -98,24 +98,25 @@ const userSchema = new mongoose.Schema({
      password: {
       type: String,
       required: true,
-      minlength: 6, // basic password rule
+      minlength: 6,
+    },
+    role: {
+      type: String,
+      enum: ["student", "admin"],
+      default: "student",
     },
     profile: {
       education_level: { type: String },
-      target_exam: [{ type: String }], // ["tcs", "wipro", "govt"]
+      target_exam: [{ type: String }],
       college_name: { type: String },
       location: { type: String },
     },
-
     isEmailVerified: {
-  type: Boolean,
-  default: false,
-},
-
-emailOTP: String,
-
-emailOTPExpiry: Date,
-
+      type: Boolean,
+      default: false,
+    },
+    emailOTP: String,
+    emailOTPExpiry: Date,
 })
 
 
