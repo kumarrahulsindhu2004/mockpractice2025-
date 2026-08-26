@@ -6,13 +6,85 @@ import { sendOTPEmail } from "../utils/sendEmail.js";
 
 const route = express.Router();
 
+const EDUCATION_LEVELS = ["student", "graduate", "working"];
+const FAKE_VALUE = /^(test|abc|asdf|qwerty|xyz|dummy|na|n\/a|none|user|admin|xxx|foo|bar)$/i;
+
+function isPlausibleText(value, min = 3) {
+  const text = String(value || "").trim();
+  return text.length >= min && /[a-zA-Z]/.test(text) && !FAKE_VALUE.test(text);
+}
+
+function parseTargetExams(value) {
+  if (Array.isArray(value)) {
+    return value.map((item) => String(item).trim()).filter(Boolean);
+  }
+  if (!value) return [];
+  return String(value)
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
 route.post("/signup", async (req, res) => {
   try {
     const data = req.body;
     const email = data.email?.trim().toLowerCase();
+    const name = data.name?.trim();
+    const educationLevel = data.education_level?.trim().toLowerCase();
+    const collegeName = data.college_name?.trim();
+    const location = data.location?.trim();
+    const address = data.address?.trim();
+    const targetExam = parseTargetExams(data.target_exam);
+    const graduationYear = data.graduation_year
+      ? Number(data.graduation_year)
+      : undefined;
+    const currentYear = new Date().getFullYear();
 
-    if (!email || !data.password || !data.name) {
+    if (!email || !data.password || !name) {
       return res.status(400).json({ error: "Name, email and password are required" });
+    }
+
+    if (!isPlausibleText(name, 2)) {
+      return res.status(400).json({ error: "Please enter a valid full name" });
+    }
+
+    if (!EDUCATION_LEVELS.includes(educationLevel)) {
+      return res.status(400).json({
+        error: "Select whether you are a student, graduate, or working professional",
+      });
+    }
+
+    if (
+      (educationLevel === "student" || educationLevel === "graduate") &&
+      !isPlausibleText(collegeName, 3)
+    ) {
+      return res.status(400).json({ error: "Please enter a valid college name" });
+    }
+
+    if (educationLevel === "graduate") {
+      if (
+        !graduationYear ||
+        graduationYear < 1990 ||
+        graduationYear > currentYear
+      ) {
+        return res.status(400).json({
+          error: "Please enter a valid graduation year",
+        });
+      }
+    } else if (graduationYear) {
+      if (graduationYear < 1990 || graduationYear > currentYear + 6) {
+        return res.status(400).json({
+          error: "Please enter a valid graduation year",
+        });
+      }
+    }
+
+    if (!isPlausibleText(location, 2)) {
+      return res.status(400).json({ error: "Please enter a valid city" });
+    }
+
+    if (!isPlausibleText(address, 8)) {
+      return res.status(400).json({ error: "Please enter a valid address" });
     }
 
     const existingUser = await User.findOne({ email });
@@ -23,9 +95,18 @@ route.post("/signup", async (req, res) => {
     const otp = generateOTP();
 
     const newUser = new User({
-      ...data,
+      name,
       email,
+      password: data.password,
+      address,
       role: "student",
+      profile: {
+        education_level: educationLevel,
+        college_name: collegeName || undefined,
+        graduation_year: graduationYear,
+        location,
+        target_exam: targetExam,
+      },
       emailOTP: otp,
       emailOTPExpiry: Date.now() + 10 * 60 * 1000,
       isEmailVerified: false,
@@ -39,6 +120,9 @@ route.post("/signup", async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    if (error.name === "ValidationError") {
+      return res.status(400).json({ error: error.message });
+    }
     res.status(500).json({ error: "Internal Server Error" });
   }
 });

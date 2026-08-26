@@ -115,8 +115,37 @@ export default function Profile() {
             </div>
             {user.profile?.education_level && (
               <div>
-                <span>Education</span>
-                <strong>{user.profile.education_level}</strong>
+                <span>Status</span>
+                <strong>
+                  {user.profile.education_level === "working"
+                    ? "Working professional"
+                    : user.profile.education_level.charAt(0).toUpperCase() +
+                      user.profile.education_level.slice(1)}
+                </strong>
+              </div>
+            )}
+            {user.profile?.college_name && (
+              <div>
+                <span>College</span>
+                <strong>{user.profile.college_name}</strong>
+              </div>
+            )}
+            {user.profile?.graduation_year && (
+              <div>
+                <span>Graduation year</span>
+                <strong>{user.profile.graduation_year}</strong>
+              </div>
+            )}
+            {user.profile?.location && (
+              <div>
+                <span>City</span>
+                <strong>{user.profile.location}</strong>
+              </div>
+            )}
+            {user.address && (
+              <div>
+                <span>Address</span>
+                <strong>{user.address}</strong>
               </div>
             )}
             {user.profile?.target_exam?.length > 0 && (

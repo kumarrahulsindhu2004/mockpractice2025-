@@ -106,10 +106,14 @@ const userSchema = new mongoose.Schema({
       default: "student",
     },
     profile: {
-      education_level: { type: String },
+      education_level: {
+        type: String,
+        enum: ["student", "graduate", "working"],
+      },
       target_exam: [{ type: String }],
-      college_name: { type: String },
-      location: { type: String },
+      college_name: { type: String, trim: true },
+      graduation_year: { type: Number, min: 1990, max: 2040 },
+      location: { type: String, trim: true },
     },
     isEmailVerified: {
       type: Boolean,
